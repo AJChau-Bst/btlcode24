@@ -117,26 +117,27 @@ public strictfp class RobotPlayer {
 
     //Get Our Spawn Zones
     static void ducksDo(RobotController rc) throws GameActionException {
-        MapLocation[] nearestCrumbs = rc.senseNearbyCrumbs(-1);
-        if (nearestCrumbs.length > 1){
-            MapLocation nearestCrumbDirection = nearestCrumbs[0];
-            Direction moveThisWay = rc.getLocation().directionTo(nearestCrumbDirection);
-            if(rc.canMove(moveThisWay)){
-                rc.move(moveThisWay);
-            }
-        } else{
-            Direction randomDir = directions[rng.nextInt(directions.length)];
-            if (rc.canMove(randomDir)){
-                rc.move(randomDir);
-            }
-        }
+    //     MapLocation[] nearestCrumbs = rc.senseNearbyCrumbs(-1);
+    //     if (nearestCrumbs.length > 1){
+    //         MapLocation nearestCrumbDirection = nearestCrumbs[0];
+    //         Direction moveThisWay = rc.getLocation().directionTo(nearestCrumbDirection);
+    //         if(rc.canMove(moveThisWay)){
+    //             rc.move(moveThisWay);
+    //         }
+    //     } else{
+    //         Direction randomDir = directions[rng.nextInt(directions.length)];
+    //         if (rc.canMove(randomDir)){
+    //             rc.move(randomDir);
+    //         }
+    //     }
         
-    }
+    // }
 
 
     static void duckPrep(RobotController rc) throws GameActionException{
         //First, Find All Crumbs and Relocate Flags to the same corner (Top Left Corner for now)
         MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
+        mooToo(rc, crumbArray[0]);
         
         //If flag in corner, build first layer of explosive traps
 
