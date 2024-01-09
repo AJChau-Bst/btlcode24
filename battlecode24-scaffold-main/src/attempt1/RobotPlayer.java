@@ -131,13 +131,13 @@ public strictfp class RobotPlayer {
     //         }
     //     }
         
-    // }
+    }
 
 
     static void duckPrep(RobotController rc) throws GameActionException{
         //First, Find All Crumbs and Relocate Flags to the same corner (Top Left Corner for now)
         MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
-        mooToo(rc, crumbArray[0]);
+        mooTwo(rc, crumbArray[0]);
         
         //If flag in corner, build first layer of explosive traps
 
