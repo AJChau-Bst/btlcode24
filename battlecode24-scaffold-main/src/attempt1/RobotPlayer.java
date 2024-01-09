@@ -164,9 +164,114 @@ public strictfp class RobotPlayer {
     	
     	MapLocation locOffset = new MapLocation(rc.getLocation().x + 0, rc.getLocation().y + 2);
     	int distanceSquared = loc.distanceSquaredTo(locOffset);
-    	if(rc.onTheMap(locOffset) && distanceSquared < leastDistanceSquared) {
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
     		leastDistanceSquared = distanceSquared;
     		xOffset = 0;
+    		yOffset = 2;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x + 1, rc.getLocation().y + 2);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = 1;
+    		yOffset = 2;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x + 2, rc.getLocation().y + 2);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = 2;
+    		yOffset = 2;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x + 2, rc.getLocation().y + 1);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = 2;
+    		yOffset = 1;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x + 2, rc.getLocation().y + 0);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = 2;
+    		yOffset = 0;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x + 2, rc.getLocation().y - 1);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = 2;
+    		yOffset = -1;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x + 2, rc.getLocation().y -2);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = 2;
+    		yOffset = -2;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x + 1, rc.getLocation().y -2);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = 1;
+    		yOffset = -2;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x + 0, rc.getLocation().y -2);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = 0;
+    		yOffset = -2;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x -1, rc.getLocation().y -2);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = -1;
+    		yOffset = -2;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x - 2, rc.getLocation().y -2);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = -2;
+    		yOffset = -2;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x - 2, rc.getLocation().y -1);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = -2;
+    		yOffset = -1;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x - 2, rc.getLocation().y + 0);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = -2;
+    		yOffset = 0;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x - 2, rc.getLocation().y + 1);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = -2;
+    		yOffset = 1;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x - 2, rc.getLocation().y + 2);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = -2;
+    		yOffset = 2;
+    	}
+    	locOffset = new MapLocation(rc.getLocation().x - 1, rc.getLocation().y + 2);
+    	distanceSquared = loc.distanceSquaredTo(locOffset);
+    	if(rc.onTheMap(locOffset) && !rc.senseMapInfo(locOffset).isWall() && distanceSquared < leastDistanceSquared) {
+    		leastDistanceSquared = distanceSquared;
+    		xOffset = -1;
     		yOffset = 2;
     	}
     	
