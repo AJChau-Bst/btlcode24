@@ -146,30 +146,122 @@ public strictfp class RobotPlayer {
 
     }
 
+    public static Direction dirSecDir(MapLocation fromLoc, MapLocation toLoc) {
+        if (fromLoc == null) {
+            return null;
+        }
 
+        if (toLoc == null) {
+            return null;
+        }
 
+        double dx = toLoc.x - fromLoc.x;
+        double dy = toLoc.y - fromLoc.y;
 
-
-
-
-
-
-    public static void updateEnemyRobots(RobotController rc) throws GameActionException{
-        // Sensing methods can be passed in a radius of -1 to automatically 
-        // use the largest possible value.
-        RobotInfo[] enemyRobots = rc.senseNearbyRobots(-1, rc.getTeam().opponent());
-        if (enemyRobots.length != 0){
-            rc.setIndicatorString("There are nearby enemy robots! Scary!");
-            // Save an array of locations with enemy robots in them for future use.
-            MapLocation[] enemyLocations = new MapLocation[enemyRobots.length];
-            for (int i = 0; i < enemyRobots.length; i++){
-                enemyLocations[i] = enemyRobots[i].getLocation();
+        if (Math.abs(dx) >= 2.414 * Math.abs(dy)) {
+            if (dx > 0) {
+                if (dy > 0) {
+                    return Direction.NORTHEAST;
+                } else {
+                    return Direction.SOUTHEAST;
+                }
+            } else if (dx < 0) {
+                 if (dy > 0) {
+                    return Direction.NORTHWEST;
+                } else {
+                    return Direction.SOUTHWEST;
+                }
+            } else {
+                return Direction.CENTER;
             }
-            // Let the rest of our team know how many enemy robots we see!
-            if (rc.canWriteSharedArray(0, enemyRobots.length)){
-                rc.writeSharedArray(0, enemyRobots.length);
-                int numEnemies = rc.readSharedArray(0);
+        } else if (Math.abs(dy) >= 2.414 * Math.abs(dx)) {
+            if (dy > 0) {
+                 if (dx > 0) {
+                    return Direction.NORTHEAST;
+                } else {
+                    return Direction.NORTHWEST;
+                }
+            } else {
+                if (dx > 0) {
+                    return Direction.SOUTHEAST;
+                } else {
+                    return Direction.SOUTHWEST;
+                }
+            }
+        } else {
+            if (dy > 0) {
+                if (dx > 0) {
+                    if (Math.abs(dx) > Math.abs(dy)) {
+                        return Direction.EAST;
+                    } else {
+                        return Direction.NORTH;
+                    }
+                } else {
+                    if (Math.abs(dx) > Math.abs(dy)) {
+                        return Direction.WEST;
+                    } else {
+                        return Direction.NORTH;
+                    }
+                }
+            } else {
+                if (dx > 0) {
+                    if (Math.abs(dx) > Math.abs(dy)) {
+                        return Direction.EAST;
+                    } else {
+                        return Direction.SOUTH;
+                    }
+                } else {
+                    if (Math.abs(dx) > Math.abs(dy)) {
+                        return Direction.WEST;
+                    } else {
+                        return Direction.SOUTH;
+                    }
+                }
             }
         }
+    }
+
+    public static void mooTwo(RobotController rc, MapLocation loc) throws GameActionException {
+        Direction dir = rc.getLocation().directionTo(loc);
+        if (dir == Direction.CENTER) {
+        	int width = rc.getMapWidth();
+            int height = rc.getMapHeight();
+        	int centerWidth = Math.round(width/2);
+            int centerHeight = Math.round(height/2);
+            MapLocation centerOfMap = new MapLocation(centerWidth, centerHeight);
+        	dir = rc.getLocation().directionTo(centerOfMap);
+        }
+        Direction secDir = dirSecDir(rc.getLocation(), loc);
+        scoot(rc, dir, secDir);
+    }
+    
+    public static void scoot(RobotController rc, Direction dir, Direction secDir) throws GameActionException {
+    	if (rc.canMove(dir)) {
+            rc.move(dir);
+        } else if (rc.canMove(secDir)) {
+            rc.move(secDir);
+        } else if (dir.rotateLeft() == secDir) {
+        	if (rc.canMove(dir.rotateRight())) {
+                rc.move(dir.rotateRight());
+        	} else if (rc.canMove(dir.rotateLeft().rotateLeft())) {
+        		rc.move(dir.rotateLeft().rotateLeft());
+        	} else if (rc.canMove(dir.rotateRight().rotateRight())) {
+                rc.move(dir.rotateRight().rotateRight());
+        	} else if (rc.canMove(dir.rotateLeft().rotateLeft().rotateLeft())) {
+        		rc.move(dir.rotateLeft().rotateLeft().rotateLeft());
+        	} else if (rc.canMove(dir.rotateRight().rotateRight().rotateRight())) {
+                rc.move(dir.rotateRight().rotateRight().rotateRight());
+        	}
+        } else if (rc.canMove(dir.rotateLeft())) {
+    		rc.move(dir.rotateLeft());
+    	} else if (rc.canMove(dir.rotateRight().rotateRight())) {
+            rc.move(dir.rotateRight().rotateRight());
+    	} else if (rc.canMove(dir.rotateLeft().rotateLeft())) {
+    		rc.move(dir.rotateLeft().rotateLeft());
+    	} else if (rc.canMove(dir.rotateRight().rotateRight().rotateRight())) {
+    		rc.move(dir.rotateRight().rotateRight().rotateRight());
+    	} else if (rc.canMove(dir.rotateLeft().rotateLeft().rotateLeft())) {
+            rc.move(dir.rotateLeft().rotateLeft().rotateLeft());
+    	}
     }
 }
