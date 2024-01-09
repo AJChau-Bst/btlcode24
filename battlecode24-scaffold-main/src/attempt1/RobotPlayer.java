@@ -81,9 +81,9 @@ public strictfp class RobotPlayer {
                 else{
                     if(turnCount < 200){
                         duckPrep(rc);
-                    } else (
+                    } else {
                         ducksDo(rc);
-                    )
+                    }
 
                 }
 
@@ -136,7 +136,7 @@ public strictfp class RobotPlayer {
 
     static void duckPrep(RobotController rc) throws GameActionException{
         //First, Find All Crumbs and Relocate Flags to the same corner (Top Left Corner for now)
-        MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1)
+        MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
         
         //If flag in corner, build first layer of explosive traps
 
