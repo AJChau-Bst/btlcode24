@@ -79,7 +79,12 @@ public strictfp class RobotPlayer {
                     if (rc.canSpawn(randomLoc)) rc.spawn(randomLoc);
                 }
                 else{
-                    ducksDo(rc);
+                    if(turnCount < 200){
+                        duckPrep(rc);
+                    } else (
+                        ducksDo(rc);
+                    )
+
                 }
 
             } catch (GameActionException e) {
@@ -126,6 +131,19 @@ public strictfp class RobotPlayer {
             }
         }
         
+    }
+
+
+    static void duckPrep(RobotController rc) throws GameActionException{
+        //First, Find All Crumbs and Relocate Flags to the same corner (Top Left Corner for now)
+        MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1)
+        
+        //If flag in corner, build first layer of explosive traps
+
+        //If See explosive trap, place water trap
+
+        //If see water trap, then place stun traps
+
     }
 
 
