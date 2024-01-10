@@ -136,7 +136,6 @@ public strictfp class RobotPlayer {
     public static MapLocation coordSetUp(RobotController rc){
         int mapHeight = rc.getMapHeight();
         int mapWidth = rc.getMapWidth();
-        MapLocation returnLocation;
         MapLocation[] spawnZones = rc.getAllySpawnLocations();
         int xCoord = spawnZones[0].x;
         int yCoord = spawnZones[0].y;
