@@ -307,9 +307,248 @@ public strictfp class RobotPlayer {
     	}
     	
     	if (xOffset == 0 && yOffset == 2) {
-    		
+    		if (moveN(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else return false;
     	}
     	
+    	return false;
+    }
+    
+    public static boolean moveN(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.NORTH)) {
+    		rc.move(Direction.NORTH); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTH))) {rc.fill(rc.getLocation().add(Direction.NORTH));};
+    		return true;
+    	} else if (rc.canMove(Direction.NORTHEAST)) {
+    		rc.move(Direction.NORTHEAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));};
+    		return true;
+    	} else if (rc.canMove(Direction.NORTHWEST)) {
+    		rc.move(Direction.NORTHWEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.NORTH))) {rc.fill(rc.getLocation().add(Direction.NORTH));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));}
+    	return false;
+    }
+    
+    public static boolean moveNNE(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.NORTH)) {
+    		rc.move(Direction.NORTH); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));};
+    		return true;
+    	} else if (rc.canMove(Direction.NORTHEAST)) {
+    		rc.move(Direction.NORTHEAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTH))) {rc.fill(rc.getLocation().add(Direction.NORTH));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.NORTH))) {rc.fill(rc.getLocation().add(Direction.NORTH));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));}
+    	return false;
+    }
+    
+    public static boolean moveNE(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.NORTHEAST)) {
+    		rc.move(Direction.NORTHEAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));}
+    	return false;
+    }
+    
+    public static boolean moveENE(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.EAST)) {
+    		rc.move(Direction.EAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));};
+    		return true;
+    	} else if (rc.canMove(Direction.NORTHEAST)) {
+    		rc.move(Direction.NORTHEAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.EAST))) {rc.fill(rc.getLocation().add(Direction.EAST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.EAST))) {rc.fill(rc.getLocation().add(Direction.EAST));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));}
+    	return false;
+    }
+    
+    public static boolean moveE(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.EAST)) {
+    		rc.move(Direction.EAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.EAST))) {rc.fill(rc.getLocation().add(Direction.EAST));};
+    		return true;
+    	} else if (rc.canMove(Direction.NORTHEAST)) {
+    		rc.move(Direction.NORTHEAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));};
+    		return true;
+    	} else if (rc.canMove(Direction.SOUTHEAST)) {
+    		rc.move(Direction.SOUTHEAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.EAST))) {rc.fill(rc.getLocation().add(Direction.EAST));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));}
+    	return false;
+    }
+    
+    public static boolean moveESE(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.EAST)) {
+    		rc.move(Direction.EAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));};
+    		return true;
+    	} else if (rc.canMove(Direction.SOUTHEAST)) {
+    		rc.move(Direction.SOUTHEAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.EAST))) {rc.fill(rc.getLocation().add(Direction.EAST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.EAST))) {rc.fill(rc.getLocation().add(Direction.EAST));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));}
+    	return false;
+    }
+    
+    public static boolean moveSE(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.SOUTHEAST)) {
+    		rc.move(Direction.SOUTHEAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));}
+    	return false;
+    }
+    
+    public static boolean moveSSE(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.SOUTH)) {
+    		rc.move(Direction.SOUTH); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));};
+    		return true;
+    	} else if (rc.canMove(Direction.SOUTHEAST)) {
+    		rc.move(Direction.SOUTHEAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTH))) {rc.fill(rc.getLocation().add(Direction.SOUTH));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.SOUTH))) {rc.fill(rc.getLocation().add(Direction.SOUTH));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));}
+    	return false;
+    }
+    
+    public static boolean moveS(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.SOUTH)) {
+    		rc.move(Direction.SOUTH); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTH))) {rc.fill(rc.getLocation().add(Direction.SOUTH));};
+    		return true;
+    	} else if (rc.canMove(Direction.SOUTHWEST)) {
+    		rc.move(Direction.SOUTHWEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));};
+    		return true;
+    	} else if (rc.canMove(Direction.SOUTHEAST)) {
+    		rc.move(Direction.SOUTHEAST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.SOUTH))) {rc.fill(rc.getLocation().add(Direction.SOUTH));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));}
+    	return false;
+    }
+    
+    public static boolean moveSSW(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.SOUTH)) {
+    		rc.move(Direction.SOUTH); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));};
+    		return true;
+    	} else if (rc.canMove(Direction.SOUTHWEST)) {
+    		rc.move(Direction.SOUTHWEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTH))) {rc.fill(rc.getLocation().add(Direction.SOUTH));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.SOUTH))) {rc.fill(rc.getLocation().add(Direction.SOUTH));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));}
+    	return false;
+    }
+    
+    public static boolean moveSW(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.SOUTHWEST)) {
+    		rc.move(Direction.SOUTHWEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));}
+    	return false;
+    }
+    
+    public static boolean moveWSW(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.WEST)) {
+    		rc.move(Direction.WEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));};
+    		return true;
+    	} else if (rc.canMove(Direction.SOUTHWEST)) {
+    		rc.move(Direction.SOUTHWEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.WEST))) {rc.fill(rc.getLocation().add(Direction.WEST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.WEST))) {rc.fill(rc.getLocation().add(Direction.WEST));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));}
+    	return false;
+    }
+    
+    public static boolean moveW(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.WEST)) {
+    		rc.move(Direction.WEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.WEST))) {rc.fill(rc.getLocation().add(Direction.WEST));};
+    		return true;
+    	} else if (rc.canMove(Direction.SOUTHWEST)) {
+    		rc.move(Direction.SOUTHWEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));};
+    		return true;
+    	} else if (rc.canMove(Direction.NORTHWEST)) {
+    		rc.move(Direction.NORTHWEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.WEST))) {rc.fill(rc.getLocation().add(Direction.WEST));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));}
+    	return false;
+    }
+    
+    public static boolean moveWNW(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.WEST)) {
+    		rc.move(Direction.WEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));};
+    		return true;
+    	} else if (rc.canMove(Direction.NORTHWEST)) {
+    		rc.move(Direction.NORTHWEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.WEST))) {rc.fill(rc.getLocation().add(Direction.WEST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.WEST))) {rc.fill(rc.getLocation().add(Direction.WEST));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));}
+    	return false;
+    }
+    
+    public static boolean moveNW(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.NORTHWEST)) {
+    		rc.move(Direction.NORTHWEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));}
+    	return false;
+    }
+    
+    public static boolean moveNNW(RobotController rc) throws GameActionException {
+    	if (rc.canMove(Direction.NORTH)) {
+    		rc.move(Direction.NORTH); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));};
+    		return true;
+    	} else if (rc.canMove(Direction.NORTHWEST)) {
+    		rc.move(Direction.NORTHWEST); 
+    		if (rc.canFill(rc.getLocation().add(Direction.NORTH))) {rc.fill(rc.getLocation().add(Direction.NORTH));};
+    		return true;
+    	} else if (rc.canFill(rc.getLocation().add(Direction.NORTH))) {rc.fill(rc.getLocation().add(Direction.NORTH));}
+    	else if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));}
     	return false;
     }
 
