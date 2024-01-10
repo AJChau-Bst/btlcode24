@@ -79,7 +79,7 @@ public strictfp class RobotPlayer {
                     if (rc.canSpawn(randomLoc)) rc.spawn(randomLoc);
                 }
                 else{
-                	//moveTo(rc, new MapLocation(0,0));
+                	//flee(rc, new MapLocation(15,15));
                     if(turnCount < 200){
                         duckPrep(rc);
                     } else {
@@ -201,6 +201,20 @@ public strictfp class RobotPlayer {
     
     public static void moveTo(RobotController rc, MapLocation loc, int threshold) throws GameActionException {
     	moveUnified(rc, loc, threshold);
+    }
+    
+    public static void flee(RobotController rc, MapLocation loc) throws GameActionException {
+    	MapLocation here = rc.getLocation();
+    	int dx = loc.x - here.x;
+    	int dy = loc.y - here.y;
+    	moveUnified(rc, new MapLocation(here.x - 2*dx, here.y - 2*dy), 2);
+    }
+    
+    public static void flee(RobotController rc, MapLocation loc, int threshold) throws GameActionException {
+    	MapLocation here = rc.getLocation();
+    	int dx = loc.x - here.x;
+    	int dy = loc.y - here.y;
+    	moveUnified(rc, new MapLocation(here.x - 2*dx, here.y - 2*dy), threshold);
     }
     
     public static void moveUnified(RobotController rc, MapLocation loc, int threshold) throws GameActionException {
@@ -1075,20 +1089,6 @@ public strictfp class RobotPlayer {
         	dir = rc.getLocation().directionTo(centerOfMap);
         }
         Direction secDir = dirSecDir(rc.getLocation(), loc);
-        return scoot(rc, dir, secDir);
-    }
-    
-    public static boolean flee(RobotController rc, MapLocation loc) throws GameActionException {
-        Direction dir = rc.getLocation().directionTo(loc).opposite();
-        if (dir == Direction.CENTER) {
-        	int width = rc.getMapWidth();
-            int height = rc.getMapHeight();
-        	int centerWidth = Math.round(width/2);
-            int centerHeight = Math.round(height/2);
-            MapLocation centerOfMap = new MapLocation(centerWidth, centerHeight);
-        	dir = rc.getLocation().directionTo(centerOfMap);
-        }
-        Direction secDir = dirSecDir(rc.getLocation(), loc).opposite();
         return scoot(rc, dir, secDir);
     }
     
