@@ -170,7 +170,11 @@ public strictfp class RobotPlayer {
         }
         FlagInfo[] sixawayCovid = rc.senseNearbyFlags(5);
             if(rc.hasFlag()){
+<<<<<<< Updated upstream
                 mooTwo(rc, coordSetUp(rc));
+=======
+                moveTo(rc, leftCorner);
+>>>>>>> Stashed changes
             if(sixawayCovid.length > 0){
                 flee(rc, sixawayCovid[0].getLocation());
                 if(rc.canDropFlag(rc.getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < 27)){
@@ -178,8 +182,9 @@ public strictfp class RobotPlayer {
                     rc.setIndicatorString("Dropped Flag!");
             }
         } else if (ourFlagLoc.length > 0){
-            mooTwo(rc, ourFlagLoc[0].getLocation()); //<aybe no clustering... but later issue :)
+            moveTo(rc, ourFlagLoc[0].getLocation()); //<aybe no clustering... but later issue :)
         }
+<<<<<<< Updated upstream
 		if(!rc.hasFlag() && crumbArray.length > 0){
         	mooTwo(rc, crumbArray[0]);
 		} else{
@@ -187,6 +192,10 @@ public strictfp class RobotPlayer {
 			flee(rc, spreadOut);
 		}
 
+=======
+        MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
+        moveTo(rc, crumbArray[0]);
+>>>>>>> Stashed changes
               
         //If flag in corner, build first layer of explosive traps
 
@@ -344,6 +353,291 @@ public strictfp class RobotPlayer {
     		(moveSSE(rc)) {return true;} else if
     		(moveSSW(rc)) {return true;} else if
     		(moveS(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == 1 && yOffset == 2) {
+    		if (moveNNE(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == 2 && yOffset == 2) {
+    		if (moveNE(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == 2 && yOffset == 1) {
+    		if (moveENE(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == 2 && yOffset == 0) {
+    		if (moveE(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == 2 && yOffset == -1) {
+    		if (moveESE(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == 2 && yOffset == -2) {
+    		if (moveSE(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == 1 && yOffset == -2) {
+    		if (moveSSE(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == 0 && yOffset == -2) {
+    		if (moveS(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == -1 && yOffset == -2) {
+    		if (moveSSW(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == -2 && yOffset == -2) {
+    		if (moveSW(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == -2 && yOffset == -1) {
+    		if (moveWSW(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == -2 && yOffset == 0) {
+    		if (moveW(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == -2 && yOffset == 1) {
+    		if (moveWNW(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == -2 && yOffset == 2) {
+    		if (moveNW(rc)) {return true;} else if
+    		(moveNNW(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else return false;
+    	}
+    	
+    	if (xOffset == -1 && yOffset == 2) {
+    		if (moveNNW(rc)) {return true;} else if
+    		(moveNW(rc)) {return true;} else if
+    		(moveN(rc)) {return true;} else if
+    		(moveNNE(rc)) {return true;} else if
+    		(moveWNW(rc)) {return true;} else if
+    		(moveNE(rc)) {return true;} else if
+    		(moveW(rc)) {return true;} else if
+    		(moveENE(rc)) {return true;} else if
+    		(moveWSW(rc)) {return true;} else if
+    		(moveE(rc)) {return true;} else if
+    		(moveSW(rc)) {return true;} else if
+    		(moveESE(rc)) {return true;} else if
+    		(moveSSW(rc)) {return true;} else if
+    		(moveSE(rc)) {return true;} else if
+    		(moveS(rc)) {return true;} else if
+    		(moveSSE(rc)) {return true;} else return false;
     	}
     	
     	return false;
