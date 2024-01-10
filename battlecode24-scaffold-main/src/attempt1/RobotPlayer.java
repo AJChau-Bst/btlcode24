@@ -152,46 +152,77 @@ public strictfp class RobotPlayer {
     }
 
 
-    static void duckPrep(RobotController rc) throws GameActionException{
+    static void brokenFlagMvment(RobotController rc) throws GameActionException{
+		Team ourTeam = rc.getTeam();
         int mapHeight = rc.getMapHeight();
         int mapWidth = rc.getMapWidth();
         int flagPlaceHeight = (mapHeight/10);
         int flagPlaceWidth = (mapWidth - mapWidth/10);
 		MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
-        //Inefficient Corner Code
-        //Identify the Corner, write code to find margin
-        //Send Ducks to Margin
-        //DON'T PICK UP FLAGS IF IN THE MARGIN
-        //First, Find All Crumbs and Relocate Flags to the same corner (Top Left Corner for now)
-        //Dumb Ducks need exploration code
-        //Get Flag to Corner
-        FlagInfo[] ourFlagLoc = rc.senseNearbyFlags(-1);
-        if(rc.canPickupFlag(ourFlagLoc[0].getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < mapHeight - 3)){
+		FlagInfo[] ourFlagLoc = rc.senseNearbyFlags(-1);
+        if(rc.canPickupFlag(ourFlagLoc[0].getLocation()) && (ourFlagLoc[0].getLocation().y < 3 || ourFlagLoc[0].getLocation().y < mapHeight - 3)){
             rc.pickupFlag(ourFlagLoc[0].getLocation());
         }
-
-        //flee(rc, sixawayCovid[0].getLocation());
-        if(rc.canDropFlag(rc.getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < mapHeight -3)){
-            rc.dropFlag(rc.getLocation());
-            rc.setIndicatorString("Dropped Flag!");
-        } else if (ourFlagLoc.length > 0){
-            moveTo(rc, ourFlagLoc[0].getLocation()); //<aybe no clustering... but later issue :)
-        }
+		if(rc.hasFlag() && ((rc.getLocation().y < 3 || rc.getLocation().y < mapHeight -3) &&((rc.getLocation().x < 3 || rc.getLocation().x < mapHeight -3)))){
+			moveTo(rc, coordSetUp(rc));
+			rc.setIndicatorString("Cant sense location");
+		}
+		else if (rc.hasFlag() && (rc.getLocation().y > 3 || rc.getLocation().y < mapHeight -3) && ((rc.getLocation().x < 3 || rc.getLocation().x < mapHeight -3))){ //If robot has flag and is in a droppable location
+			rc.dropFlag(rc.getLocation());
+			rc.setIndicatorString("Dropped Flag"); //drop it
+			if(!rc.senseLegalStartingFlagPlacement(rc.getLocation())){ //is the flag in a legal starting position? if not, go there
+				rc.pickupFlag(rc.getLocation());
+				MapLocation fleeFlags = rc.senseNearbyFlags(-1, ourTeam)[0].getLocation();
+				flee(rc, fleeFlags);
+				rc.setIndicatorString("fleeing flags");
+			}
+		} else{
+			moveTo(rc, coordSetUp(rc));
+			rc.setIndicatorString("Moving to Corner II");
+		}
 		if(!rc.hasFlag() && crumbArray.length > 0){
 			moveTo(rc, crumbArray[0]);
-		} else{
-			MapLocation spreadOut = rc.senseNearbyRobots(-1)[0].location;
-			flee(rc, spreadOut);
+			rc.setIndicatorString("gathering crumbs");
 		}
-              
-
-			  
-        //If flag in corner, build first layer of explosive traps
-        //If See explosive trap, place water trap
-        //If see water trap, then place stun traps
-
     }
     
+	static void duckPrep(RobotController rc) throws GameActionException{
+		MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
+		FlagInfo[] ourFlagLoc = rc.senseNearbyFlags(-1);
+
+		if(crumbArray.length > 0){
+			rc.setIndicatorString("Collecting Crumbs");
+			moveTo(rc, crumbArray[0]);
+		} else if(ourFlagLoc.length > 0 && trapDetection(rc, TrapType.EXPLOSIVE) < 2){
+			rc.setIndicatorString("Planting Bomb");
+			moveTo(rc, ourFlagLoc[0].getLocation());
+			if(rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())){
+				rc.build(TrapType.EXPLOSIVE, rc.getLocation());
+			}
+		} else if(ourFlagLoc.length > 0 && trapDetection(rc, TrapType.EXPLOSIVE) > 1){
+			rc.setIndicatorString("Planting Water");
+			if(rc.canBuild(TrapType.WATER, rc.getLocation())){
+				rc.build(TrapType.WATER, rc.getLocation());
+		}
+		}
+		 else{
+			rc.setIndicatorString("Fleeing");
+			flee(rc, rc.senseNearbyRobots(-1)[0].location);
+
+		}
+	}
+
+	static int trapDetection(RobotController rc, TrapType trap){
+		MapInfo[] detectingTrapTypes = rc.senseNearbyMapInfos();
+		int counter = 0;
+		for ( int i = 0; i < detectingTrapTypes.length; i++){
+			TrapType detected =  detectingTrapTypes[i].getTrapType();
+			if(detected == trap){
+				counter = counter + 1;
+		}
+	}
+	return counter;
+	}
 
 
     
