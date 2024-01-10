@@ -306,6 +306,10 @@ public strictfp class RobotPlayer {
     		yOffset = 2;
     	}
     	
+    	if (xOffset == 0 && yOffset == 2) {
+    		
+    	}
+    	
     	return false;
     }
 
@@ -416,65 +420,77 @@ public strictfp class RobotPlayer {
     	if (rc.canMove(dir) || rc.canFill(rc.getLocation().add(dir))) {
     		if(!rc.canMove(dir)) {
     			rc.fill(rc.getLocation().add(dir));
+    		} else {
+                rc.move(dir);
     		}
-            rc.move(dir);
         } else if (rc.canMove(secDir) || rc.canFill(rc.getLocation().add(secDir))) {
         	if(!rc.canMove(secDir)) {
     			rc.fill(rc.getLocation().add(secDir));
+    		} else {
+                rc.move(secDir);
     		}
-        	rc.move(secDir);
         } else if (dir.rotateLeft() == secDir) {
         	if (rc.canMove(dir.rotateRight()) || rc.canFill(rc.getLocation().add(dir.rotateRight()))) {
         		if(!rc.canMove(dir.rotateRight())) {
         			rc.fill(rc.getLocation().add(dir.rotateRight()));
+        		} else {
+                    rc.move(dir.rotateRight());
         		}
-                rc.move(dir.rotateRight());
         	} else if (rc.canMove(dir.rotateLeft().rotateLeft()) || rc.canFill(rc.getLocation().add(dir.rotateLeft().rotateLeft()))) {
         		if(!rc.canMove(dir.rotateLeft().rotateLeft())) {
         			rc.fill(rc.getLocation().add(dir.rotateLeft().rotateLeft()));
+        		} else {
+            		rc.move(dir.rotateLeft().rotateLeft());
         		}
-        		rc.move(dir.rotateLeft().rotateLeft());
         	} else if (rc.canMove(dir.rotateRight().rotateRight()) || rc.canFill(rc.getLocation().add(dir.rotateRight().rotateRight()))) {
         		if(!rc.canMove(dir.rotateRight().rotateRight())) {
         			rc.fill(rc.getLocation().add(dir.rotateRight().rotateRight()));
+        		} else {
+            		rc.move(dir.rotateRight().rotateRight());
         		}
-        		rc.move(dir.rotateRight().rotateRight());
         	} else if (rc.canMove(dir.rotateLeft().rotateLeft().rotateLeft()) || rc.canFill(rc.getLocation().add(dir.rotateLeft().rotateLeft().rotateLeft()))) {
         		if(!rc.canMove(dir.rotateLeft().rotateLeft().rotateLeft())) {
         			rc.fill(rc.getLocation().add(dir.rotateLeft().rotateLeft().rotateLeft()));
+        		} else {
+            		rc.move(dir.rotateLeft().rotateLeft().rotateLeft());
         		}
-        		rc.move(dir.rotateLeft().rotateLeft().rotateLeft());
         	} else if (rc.canMove(dir.rotateRight().rotateRight().rotateRight()) || rc.canFill(rc.getLocation().add(dir.rotateRight().rotateRight().rotateRight()))) {
         		if(!rc.canMove(dir.rotateRight().rotateRight().rotateRight())) {
         			rc.fill(rc.getLocation().add(dir.rotateRight().rotateRight().rotateRight()));
+        		} else {
+            		rc.move(dir.rotateRight().rotateRight().rotateRight());
         		}
-        		rc.move(dir.rotateRight().rotateRight().rotateRight());
         	}
         } else if (rc.canMove(dir.rotateLeft()) || rc.canFill(rc.getLocation().add(dir.rotateLeft()))) {
         	if(!rc.canMove(dir.rotateLeft())) {
     			rc.fill(rc.getLocation().add(dir.rotateLeft()));
+    		} else {
+            	rc.move(dir.rotateLeft());
     		}
-        	rc.move(dir.rotateLeft());
     	} else if (rc.canMove(dir.rotateRight().rotateRight()) || rc.canFill(rc.getLocation().add(dir.rotateRight().rotateRight()))) {
     		if(!rc.canMove(dir.rotateRight().rotateRight())) {
     			rc.fill(rc.getLocation().add(dir.rotateRight().rotateRight()));
+    		} else {
+        		rc.move(dir.rotateRight().rotateRight());
     		}
-    		rc.move(dir.rotateRight().rotateRight());
     	} else if (rc.canMove(dir.rotateLeft().rotateLeft()) || rc.canFill(rc.getLocation().add(dir.rotateLeft().rotateLeft()))) {
     		if(!rc.canMove(dir.rotateLeft().rotateLeft())) {
     			rc.fill(rc.getLocation().add(dir.rotateLeft().rotateLeft()));
+    		} else {
+        		rc.move(dir.rotateLeft().rotateLeft());
     		}
-    		rc.move(dir.rotateLeft().rotateLeft());
     	} else if (rc.canMove(dir.rotateRight().rotateRight().rotateRight()) || rc.canFill(rc.getLocation().add(dir.rotateRight().rotateRight().rotateRight()))) {
     		if(!rc.canMove(dir.rotateRight().rotateRight().rotateRight())) {
     			rc.fill(rc.getLocation().add(dir.rotateRight().rotateRight().rotateRight()));
+    		} else {
+        		rc.move(dir.rotateRight().rotateRight().rotateRight());
     		}
-    		rc.move(dir.rotateRight().rotateRight().rotateRight());
     	} else if (rc.canMove(dir.rotateLeft().rotateLeft().rotateLeft()) || rc.canFill(rc.getLocation().add(dir.rotateLeft().rotateLeft().rotateLeft()))) {
     		if(!rc.canMove(dir.rotateLeft().rotateLeft().rotateLeft())) {
     			rc.fill(rc.getLocation().add(dir.rotateLeft().rotateLeft().rotateLeft()));
+    		} else {
+        		rc.move(dir.rotateLeft().rotateLeft().rotateLeft());
     		}
-    		rc.move(dir.rotateLeft().rotateLeft().rotateLeft());
     	}
     }
 }
