@@ -170,11 +170,7 @@ public strictfp class RobotPlayer {
         }
         FlagInfo[] sixawayCovid = rc.senseNearbyFlags(5);
             if(rc.hasFlag()){
-<<<<<<< Updated upstream
-                mooTwo(rc, coordSetUp(rc));
-=======
-                moveTo(rc, leftCorner);
->>>>>>> Stashed changes
+            	moveTo(rc, coordSetUp(rc));
             if(sixawayCovid.length > 0){
                 flee(rc, sixawayCovid[0].getLocation());
                 if(rc.canDropFlag(rc.getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < 27)){
@@ -184,18 +180,12 @@ public strictfp class RobotPlayer {
         } else if (ourFlagLoc.length > 0){
             moveTo(rc, ourFlagLoc[0].getLocation()); //<aybe no clustering... but later issue :)
         }
-<<<<<<< Updated upstream
 		if(!rc.hasFlag() && crumbArray.length > 0){
-        	mooTwo(rc, crumbArray[0]);
+			moveTo(rc, crumbArray[0]);
 		} else{
 			MapLocation spreadOut = rc.senseNearbyRobots(-1)[0].location;
 			flee(rc, spreadOut);
 		}
-
-=======
-        MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
-        moveTo(rc, crumbArray[0]);
->>>>>>> Stashed changes
               
         //If flag in corner, build first layer of explosive traps
 
