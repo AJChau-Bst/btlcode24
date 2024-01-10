@@ -168,15 +168,11 @@ public strictfp class RobotPlayer {
         if(rc.canPickupFlag(ourFlagLoc[0].getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < mapHeight - 3)){
             rc.pickupFlag(ourFlagLoc[0].getLocation());
         }
-        FlagInfo[] sixawayCovid = rc.senseNearbyFlags(5);
-            if(rc.hasFlag()){
-            	moveTo(rc, coordSetUp(rc));
-            if(sixawayCovid.length > 0){
-                flee(rc, sixawayCovid[0].getLocation());
-                if(rc.canDropFlag(rc.getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < mapHeight -3)){
-                    rc.dropFlag(rc.getLocation());
-                    rc.setIndicatorString("Dropped Flag!");
-            }
+
+        //flee(rc, sixawayCovid[0].getLocation());
+        if(rc.canDropFlag(rc.getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < mapHeight -3)){
+            rc.dropFlag(rc.getLocation());
+            rc.setIndicatorString("Dropped Flag!");
         } else if (ourFlagLoc.length > 0){
             moveTo(rc, ourFlagLoc[0].getLocation()); //<aybe no clustering... but later issue :)
         }
@@ -187,10 +183,10 @@ public strictfp class RobotPlayer {
 			flee(rc, spreadOut);
 		}
               
+
+			  
         //If flag in corner, build first layer of explosive traps
-
         //If See explosive trap, place water trap
-
         //If see water trap, then place stun traps
 
     }
