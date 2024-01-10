@@ -56,7 +56,7 @@ public strictfp class RobotPlayer {
 
         // Hello world! Standard output is very useful for debugging.
         // Everything you say here will be directly viewable in your terminal when you run a match!
-        System.out.println("I'm alive");
+        //System.out.println("I'm alive");
 
         // You can also use indicators to save debug notes in replays.
         rc.setIndicatorString("Hello world!");
@@ -79,6 +79,7 @@ public strictfp class RobotPlayer {
                     if (rc.canSpawn(randomLoc)) rc.spawn(randomLoc);
                 }
                 else{
+                	//moveTo(rc, new MapLocation(0,0));
                     if(turnCount < 200){
                         duckPrep(rc);
                     } else {
@@ -190,7 +191,7 @@ public strictfp class RobotPlayer {
         //If see water trap, then place stun traps
 
     }
-    }
+    
 
 
     
@@ -630,6 +631,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveN(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.NORTH).add(Direction.NORTH);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.NORTH)) {
     		rc.move(Direction.NORTH); 
     		if (rc.canFill(rc.getLocation().add(Direction.NORTH))) {rc.fill(rc.getLocation().add(Direction.NORTH));};
@@ -649,6 +656,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveNNE(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.NORTH).add(Direction.NORTHEAST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.NORTH)) {
     		rc.move(Direction.NORTH); 
     		if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));};
@@ -663,6 +676,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveNE(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.NORTHEAST).add(Direction.NORTHEAST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.NORTHEAST)) {
     		rc.move(Direction.NORTHEAST); 
     		if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));};
@@ -672,6 +691,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveENE(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.EAST).add(Direction.NORTHEAST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.EAST)) {
     		rc.move(Direction.EAST); 
     		if (rc.canFill(rc.getLocation().add(Direction.NORTHEAST))) {rc.fill(rc.getLocation().add(Direction.NORTHEAST));};
@@ -686,6 +711,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveE(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.EAST).add(Direction.EAST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.EAST)) {
     		rc.move(Direction.EAST); 
     		if (rc.canFill(rc.getLocation().add(Direction.EAST))) {rc.fill(rc.getLocation().add(Direction.EAST));};
@@ -705,6 +736,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveESE(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.EAST).add(Direction.SOUTHEAST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.EAST)) {
     		rc.move(Direction.EAST); 
     		if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));};
@@ -719,6 +756,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveSE(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.SOUTHEAST).add(Direction.SOUTHEAST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.SOUTHEAST)) {
     		rc.move(Direction.SOUTHEAST); 
     		if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));};
@@ -728,6 +771,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveSSE(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.SOUTH).add(Direction.SOUTHEAST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.SOUTH)) {
     		rc.move(Direction.SOUTH); 
     		if (rc.canFill(rc.getLocation().add(Direction.SOUTHEAST))) {rc.fill(rc.getLocation().add(Direction.SOUTHEAST));};
@@ -742,6 +791,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveS(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.SOUTH).add(Direction.SOUTH);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.SOUTH)) {
     		rc.move(Direction.SOUTH); 
     		if (rc.canFill(rc.getLocation().add(Direction.SOUTH))) {rc.fill(rc.getLocation().add(Direction.SOUTH));};
@@ -761,6 +816,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveSSW(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.SOUTH).add(Direction.SOUTHWEST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.SOUTH)) {
     		rc.move(Direction.SOUTH); 
     		if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));};
@@ -775,6 +836,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveSW(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.SOUTHWEST).add(Direction.SOUTHWEST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.SOUTHWEST)) {
     		rc.move(Direction.SOUTHWEST); 
     		if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));};
@@ -784,6 +851,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveWSW(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.WEST).add(Direction.SOUTHWEST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.WEST)) {
     		rc.move(Direction.WEST); 
     		if (rc.canFill(rc.getLocation().add(Direction.SOUTHWEST))) {rc.fill(rc.getLocation().add(Direction.SOUTHWEST));};
@@ -798,6 +871,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveW(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.WEST).add(Direction.WEST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.WEST)) {
     		rc.move(Direction.WEST); 
     		if (rc.canFill(rc.getLocation().add(Direction.WEST))) {rc.fill(rc.getLocation().add(Direction.WEST));};
@@ -817,6 +896,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveWNW(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.WEST).add(Direction.NORTHWEST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.WEST)) {
     		rc.move(Direction.WEST); 
     		if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));};
@@ -831,6 +916,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveNW(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.NORTHWEST).add(Direction.NORTHWEST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.NORTHWEST)) {
     		rc.move(Direction.NORTHWEST); 
     		if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));};
@@ -840,6 +931,12 @@ public strictfp class RobotPlayer {
     }
     
     public static boolean moveNNW(RobotController rc) throws GameActionException {
+    	MapLocation lookTwo = rc.getLocation().add(Direction.NORTH).add(Direction.NORTHWEST);
+    	if (!rc.onTheMap(lookTwo)) {
+    		return false;
+    	} else if (rc.senseMapInfo(lookTwo).isWall()) {
+    		return false;
+    	}
     	if (rc.canMove(Direction.NORTH)) {
     		rc.move(Direction.NORTH); 
     		if (rc.canFill(rc.getLocation().add(Direction.NORTHWEST))) {rc.fill(rc.getLocation().add(Direction.NORTHWEST));};
