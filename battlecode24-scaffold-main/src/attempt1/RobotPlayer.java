@@ -156,6 +156,7 @@ public strictfp class RobotPlayer {
         int mapWidth = rc.getMapWidth();
         int flagPlaceHeight = (mapHeight/10);
         int flagPlaceWidth = (mapWidth - mapWidth/10);
+		MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
         //Inefficient Corner Code
         //Identify the Corner, write code to find margin
         //Send Ducks to Margin
@@ -164,7 +165,7 @@ public strictfp class RobotPlayer {
         //Dumb Ducks need exploration code
         //Get Flag to Corner
         FlagInfo[] ourFlagLoc = rc.senseNearbyFlags(-1);
-        if(rc.canPickupFlag(ourFlagLoc[0].getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y > 27)){
+        if(rc.canPickupFlag(ourFlagLoc[0].getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < 27)){
             rc.pickupFlag(ourFlagLoc[0].getLocation());
         }
         FlagInfo[] sixawayCovid = rc.senseNearbyFlags(5);
@@ -172,15 +173,20 @@ public strictfp class RobotPlayer {
                 mooTwo(rc, coordSetUp(rc));
             if(sixawayCovid.length > 0){
                 flee(rc, sixawayCovid[0].getLocation());
-                if(rc.canDropFlag(rc.getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y > 27)){
+                if(rc.canDropFlag(rc.getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < 27)){
                     rc.dropFlag(rc.getLocation());
                     rc.setIndicatorString("Dropped Flag!");
             }
         } else if (ourFlagLoc.length > 0){
             mooTwo(rc, ourFlagLoc[0].getLocation()); //<aybe no clustering... but later issue :)
         }
-        MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
-        mooTwo(rc, crumbArray[0]);
+		if(!rc.hasFlag() && crumbArray.length > 0){
+        	mooTwo(rc, crumbArray[0]);
+		} else{
+			MapLocation spreadOut = rc.senseNearbyRobots(-1)[0].location;
+			flee(rc, spreadOut);
+		}
+
               
         //If flag in corner, build first layer of explosive traps
 
