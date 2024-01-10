@@ -196,13 +196,52 @@ public strictfp class RobotPlayer {
 
     
     public static void moveTo(RobotController rc, MapLocation loc) throws GameActionException {
-    	if(rc.getLocation().distanceSquaredTo(loc) > 2) {
-    		if(!lookTwoMove(rc, loc)) {
+    	moveUnified(rc, loc, 2);
+    }
+    
+    public static void moveTo(RobotController rc, MapLocation loc, int threshold) throws GameActionException {
+    	moveUnified(rc, loc, threshold);
+    }
+    
+    public static void moveUnified(RobotController rc, MapLocation loc, int threshold) throws GameActionException {
+    	if (rc.getLocation().equals(loc)) {
+    		return;
+    	} else if(rc.getLocation().distanceSquaredTo(loc) > 2) {
+    		if (wallRider(rc, loc, threshold)) {
+    			return;
+    		} else if (!lookTwoMove(rc, loc)) {
     			mooTwo(rc, loc);
     		}
     	} else {
     		mooTwo(rc, loc);
     	}
+    }
+    
+    public static boolean wallRider(RobotController rc, MapLocation loc, int threshold) throws GameActionException {
+    	if (threshold == 0) {return false;}    	
+    	MapLocation fakeSetPoint = rc.getLocation();
+    	int useFakeSetPoint = 0;
+    	MapLocation here = rc.getLocation();
+    	
+    	if (rc.onTheMap(here.add(Direction.NORTH)) && rc.senseMapInfo(here.add(Direction.NORTH)).isWall()) {fakeSetPoint = fakeSetPoint.add(Direction.EAST); useFakeSetPoint += 1;}
+    	if (rc.onTheMap(here.add(Direction.NORTHEAST)) && rc.senseMapInfo(here.add(Direction.NORTHEAST)).isWall()) {fakeSetPoint = fakeSetPoint.add(Direction.SOUTHEAST); useFakeSetPoint += 1;}
+    	if (rc.onTheMap(here.add(Direction.EAST)) && rc.senseMapInfo(here.add(Direction.EAST)).isWall()) {fakeSetPoint = fakeSetPoint.add(Direction.SOUTH); useFakeSetPoint += 1;}
+    	if (rc.onTheMap(here.add(Direction.SOUTHEAST)) && rc.senseMapInfo(here.add(Direction.SOUTHEAST)).isWall()) {fakeSetPoint = fakeSetPoint.add(Direction.SOUTHWEST); useFakeSetPoint += 1;}
+    	if (rc.onTheMap(here.add(Direction.SOUTH)) && rc.senseMapInfo(here.add(Direction.SOUTH)).isWall()) {fakeSetPoint = fakeSetPoint.add(Direction.WEST); useFakeSetPoint += 1;}
+    	if (rc.onTheMap(here.add(Direction.SOUTHWEST)) && rc.senseMapInfo(here.add(Direction.SOUTHWEST)).isWall()) {fakeSetPoint = fakeSetPoint.add(Direction.NORTHWEST); useFakeSetPoint += 1;}
+    	if (rc.onTheMap(here.add(Direction.WEST)) && rc.senseMapInfo(here.add(Direction.WEST)).isWall()) {fakeSetPoint = fakeSetPoint.add(Direction.NORTH); useFakeSetPoint += 1;}
+    	if (rc.onTheMap(here.add(Direction.NORTHWEST)) && rc.senseMapInfo(here.add(Direction.NORTHWEST)).isWall()) {fakeSetPoint = fakeSetPoint.add(Direction.NORTHEAST); useFakeSetPoint += 1;}
+
+    	Direction goalDir = here.directionTo(loc);
+    	Direction fakeSetPointDir = here.directionTo(fakeSetPoint);
+    	if (fakeSetPointDir.rotateRight().equals(goalDir) || fakeSetPointDir.rotateRight().rotateRight().equals(goalDir) || fakeSetPointDir.rotateRight().rotateRight().rotateRight().equals(goalDir)) {
+    		return false;
+    	}
+    	
+    	if (useFakeSetPoint >= threshold) {
+        	return mooTwo(rc, fakeSetPoint);
+    	}
+    	return false;
     }
     
     public static boolean lookTwoMove(RobotController rc, MapLocation loc) throws GameActionException {
@@ -1025,7 +1064,7 @@ public strictfp class RobotPlayer {
         }
     }
 
-    public static void mooTwo(RobotController rc, MapLocation loc) throws GameActionException {
+    public static boolean mooTwo(RobotController rc, MapLocation loc) throws GameActionException {
         Direction dir = rc.getLocation().directionTo(loc);
         if (dir == Direction.CENTER) {
         	int width = rc.getMapWidth();
@@ -1036,10 +1075,10 @@ public strictfp class RobotPlayer {
         	dir = rc.getLocation().directionTo(centerOfMap);
         }
         Direction secDir = dirSecDir(rc.getLocation(), loc);
-        scoot(rc, dir, secDir);
+        return scoot(rc, dir, secDir);
     }
     
-    public static void flee(RobotController rc, MapLocation loc) throws GameActionException {
+    public static boolean flee(RobotController rc, MapLocation loc) throws GameActionException {
         Direction dir = rc.getLocation().directionTo(loc).opposite();
         if (dir == Direction.CENTER) {
         	int width = rc.getMapWidth();
@@ -1050,84 +1089,109 @@ public strictfp class RobotPlayer {
         	dir = rc.getLocation().directionTo(centerOfMap);
         }
         Direction secDir = dirSecDir(rc.getLocation(), loc).opposite();
-        scoot(rc, dir, secDir);
+        return scoot(rc, dir, secDir);
     }
     
-    public static void scoot(RobotController rc, Direction dir, Direction secDir) throws GameActionException {
+    public static boolean scoot(RobotController rc, Direction dir, Direction secDir) throws GameActionException {
     	if (rc.canMove(dir) || rc.canFill(rc.getLocation().add(dir))) {
     		if(!rc.canMove(dir)) {
     			rc.fill(rc.getLocation().add(dir));
+    			return true;
     		} else {
                 rc.move(dir);
+    			return true;
     		}
         } else if (rc.canMove(secDir) || rc.canFill(rc.getLocation().add(secDir))) {
         	if(!rc.canMove(secDir)) {
     			rc.fill(rc.getLocation().add(secDir));
+    			return true;
     		} else {
                 rc.move(secDir);
+    			return true;
     		}
         } else if (dir.rotateLeft() == secDir) {
         	if (rc.canMove(dir.rotateRight()) || rc.canFill(rc.getLocation().add(dir.rotateRight()))) {
         		if(!rc.canMove(dir.rotateRight())) {
         			rc.fill(rc.getLocation().add(dir.rotateRight()));
+        			return true;
         		} else {
                     rc.move(dir.rotateRight());
+        			return true;
         		}
         	} else if (rc.canMove(dir.rotateLeft().rotateLeft()) || rc.canFill(rc.getLocation().add(dir.rotateLeft().rotateLeft()))) {
         		if(!rc.canMove(dir.rotateLeft().rotateLeft())) {
         			rc.fill(rc.getLocation().add(dir.rotateLeft().rotateLeft()));
+        			return true;
         		} else {
             		rc.move(dir.rotateLeft().rotateLeft());
+        			return true;
         		}
         	} else if (rc.canMove(dir.rotateRight().rotateRight()) || rc.canFill(rc.getLocation().add(dir.rotateRight().rotateRight()))) {
         		if(!rc.canMove(dir.rotateRight().rotateRight())) {
         			rc.fill(rc.getLocation().add(dir.rotateRight().rotateRight()));
+        			return true;
         		} else {
             		rc.move(dir.rotateRight().rotateRight());
+        			return true;
         		}
         	} else if (rc.canMove(dir.rotateLeft().rotateLeft().rotateLeft()) || rc.canFill(rc.getLocation().add(dir.rotateLeft().rotateLeft().rotateLeft()))) {
         		if(!rc.canMove(dir.rotateLeft().rotateLeft().rotateLeft())) {
         			rc.fill(rc.getLocation().add(dir.rotateLeft().rotateLeft().rotateLeft()));
+        			return true;
         		} else {
             		rc.move(dir.rotateLeft().rotateLeft().rotateLeft());
+        			return true;
         		}
         	} else if (rc.canMove(dir.rotateRight().rotateRight().rotateRight()) || rc.canFill(rc.getLocation().add(dir.rotateRight().rotateRight().rotateRight()))) {
         		if(!rc.canMove(dir.rotateRight().rotateRight().rotateRight())) {
         			rc.fill(rc.getLocation().add(dir.rotateRight().rotateRight().rotateRight()));
+        			return true;
         		} else {
             		rc.move(dir.rotateRight().rotateRight().rotateRight());
+        			return true;
         		}
         	}
         } else if (rc.canMove(dir.rotateLeft()) || rc.canFill(rc.getLocation().add(dir.rotateLeft()))) {
         	if(!rc.canMove(dir.rotateLeft())) {
     			rc.fill(rc.getLocation().add(dir.rotateLeft()));
+    			return true;
     		} else {
             	rc.move(dir.rotateLeft());
+    			return true;
     		}
     	} else if (rc.canMove(dir.rotateRight().rotateRight()) || rc.canFill(rc.getLocation().add(dir.rotateRight().rotateRight()))) {
     		if(!rc.canMove(dir.rotateRight().rotateRight())) {
     			rc.fill(rc.getLocation().add(dir.rotateRight().rotateRight()));
+    			return true;
     		} else {
         		rc.move(dir.rotateRight().rotateRight());
+    			return true;
     		}
     	} else if (rc.canMove(dir.rotateLeft().rotateLeft()) || rc.canFill(rc.getLocation().add(dir.rotateLeft().rotateLeft()))) {
     		if(!rc.canMove(dir.rotateLeft().rotateLeft())) {
     			rc.fill(rc.getLocation().add(dir.rotateLeft().rotateLeft()));
+    			return true;
     		} else {
         		rc.move(dir.rotateLeft().rotateLeft());
+    			return true;
     		}
     	} else if (rc.canMove(dir.rotateRight().rotateRight().rotateRight()) || rc.canFill(rc.getLocation().add(dir.rotateRight().rotateRight().rotateRight()))) {
     		if(!rc.canMove(dir.rotateRight().rotateRight().rotateRight())) {
     			rc.fill(rc.getLocation().add(dir.rotateRight().rotateRight().rotateRight()));
+    			return true;
     		} else {
         		rc.move(dir.rotateRight().rotateRight().rotateRight());
+    			return true;
     		}
     	} else if (rc.canMove(dir.rotateLeft().rotateLeft().rotateLeft()) || rc.canFill(rc.getLocation().add(dir.rotateLeft().rotateLeft().rotateLeft()))) {
     		if(!rc.canMove(dir.rotateLeft().rotateLeft().rotateLeft())) {
     			rc.fill(rc.getLocation().add(dir.rotateLeft().rotateLeft().rotateLeft()));
+    			return true;
     		} else {
         		rc.move(dir.rotateLeft().rotateLeft().rotateLeft());
+    			return true;
     		}
     	}
+    return false;
     }
 }
