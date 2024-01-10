@@ -165,7 +165,7 @@ public strictfp class RobotPlayer {
         //Dumb Ducks need exploration code
         //Get Flag to Corner
         FlagInfo[] ourFlagLoc = rc.senseNearbyFlags(-1);
-        if(rc.canPickupFlag(ourFlagLoc[0].getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < 27)){
+        if(rc.canPickupFlag(ourFlagLoc[0].getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < mapHeight - 3)){
             rc.pickupFlag(ourFlagLoc[0].getLocation());
         }
         FlagInfo[] sixawayCovid = rc.senseNearbyFlags(5);
@@ -173,7 +173,7 @@ public strictfp class RobotPlayer {
             	moveTo(rc, coordSetUp(rc));
             if(sixawayCovid.length > 0){
                 flee(rc, sixawayCovid[0].getLocation());
-                if(rc.canDropFlag(rc.getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < 27)){
+                if(rc.canDropFlag(rc.getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y < mapHeight -3)){
                     rc.dropFlag(rc.getLocation());
                     rc.setIndicatorString("Dropped Flag!");
             }
