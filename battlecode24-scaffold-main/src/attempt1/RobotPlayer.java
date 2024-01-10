@@ -133,6 +133,24 @@ public strictfp class RobotPlayer {
         
     }
 
+    public static MapLocation coordSetUp(RobotController rc){
+        int mapHeight = rc.getMapHeight();
+        int mapWidth = rc.getMapWidth();
+        MapLocation returnLocation;
+        MapLocation[] spawnZones = rc.getAllySpawnLocations();
+        int xCoord = spawnZones[0].x;
+        int yCoord = spawnZones[0].y;
+        if(xCoord > mapHeight/2 && yCoord > mapWidth/2){
+            return new MapLocation(mapWidth, mapHeight);
+        } else if (xCoord > mapHeight/2 && yCoord < mapWidth/2){
+            return new MapLocation(mapWidth, 0);
+        } else if (xCoord < mapHeight/2 && yCoord < mapWidth/2){
+            return new MapLocation(0, 0);
+        } else{
+            return new MapLocation(0, mapHeight);
+        }
+    }
+
 
     static void duckPrep(RobotController rc) throws GameActionException{
         int mapHeight = rc.getMapHeight();
@@ -147,17 +165,15 @@ public strictfp class RobotPlayer {
         //Dumb Ducks need exploration code
         //Get Flag to Corner
         FlagInfo[] ourFlagLoc = rc.senseNearbyFlags(-1);
-        MapLocation leftCorner =  new MapLocation(0, mapHeight);
-        rc.setIndicatorString(leftCorner.toString());
-        if(rc.canPickupFlag(ourFlagLoc[0].getLocation())){
+        if(rc.canPickupFlag(ourFlagLoc[0].getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y > 27)){
             rc.pickupFlag(ourFlagLoc[0].getLocation());
         }
         FlagInfo[] sixawayCovid = rc.senseNearbyFlags(5);
             if(rc.hasFlag()){
-                mooTwo(rc, leftCorner);
+                mooTwo(rc, coordSetUp(rc));
             if(sixawayCovid.length > 0){
                 flee(rc, sixawayCovid[0].getLocation());
-                if(rc.canDropFlag(rc.getLocation()) && rc.getLocation().y > 28){
+                if(rc.canDropFlag(rc.getLocation()) && (rc.getLocation().y < 3 || rc.getLocation().y > 27)){
                     rc.dropFlag(rc.getLocation());
                     rc.setIndicatorString("Dropped Flag!");
             }
