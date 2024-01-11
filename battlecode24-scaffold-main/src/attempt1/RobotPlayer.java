@@ -189,18 +189,21 @@ public strictfp class RobotPlayer {
 	static void duckPrep(RobotController rc) throws GameActionException{
 		MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
 		FlagInfo[] ourFlagLoc = rc.senseNearbyFlags(-1);
-
 		if(crumbArray.length > 0){
 			rc.setIndicatorString("Collecting Crumbs");
 			moveTo(rc, crumbArray[0]);
-		} else if(ourFlagLoc.length > 0 && trapDetection(rc, TrapType.EXPLOSIVE) < 2){
+		} else if((ourFlagLoc.length > 0 && trapDetection(rc, TrapType.EXPLOSIVE) < 8) && rc.getCrumbs() > 250 ){
 			rc.setIndicatorString("Planting Bomb");
 			moveTo(rc, ourFlagLoc[0].getLocation());
 			if(rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())){
 				rc.build(TrapType.EXPLOSIVE, rc.getLocation());
 			}
-		} else if(ourFlagLoc.length > 0 && trapDetection(rc, TrapType.EXPLOSIVE) > 1){
+		} else if((ourFlagLoc.length > 0 && trapDetection(rc, TrapType.EXPLOSIVE) > 1) && rc.getCrumbs() > 100){
 			rc.setIndicatorString("Planting Water");
+			if(rc.senseMapInfo(rc.getLocation()).isSpawnZone() || adjacentToSpawn(rc) ){
+				rc.setIndicatorString("Leaving Spawn Zone");
+				flee(rc, ourFlagLoc[0].getLocation());
+			}
 			if(rc.canBuild(TrapType.WATER, rc.getLocation())){
 				rc.build(TrapType.WATER, rc.getLocation());
 		}
@@ -212,6 +215,15 @@ public strictfp class RobotPlayer {
 		}
 	}
 
+	static boolean adjacentToSpawn(RobotController rc) throws GameActionException{
+		MapInfo[] checkAdjacent = rc.senseNearbyMapInfos(3);
+		for(int i = 0; i < checkAdjacent.length; i++){
+			if (checkAdjacent[i].isSpawnZone() == true){
+				return true;
+			}
+		}
+		return false;
+	}
 	static int trapDetection(RobotController rc, TrapType trap){
 		MapInfo[] detectingTrapTypes = rc.senseNearbyMapInfos();
 		int counter = 0;
