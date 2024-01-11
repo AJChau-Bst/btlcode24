@@ -80,7 +80,7 @@ public strictfp class RobotPlayer {
                 }
                 else{
                 	//flee(rc, new MapLocation(15,15));
-                    if(turnCount < 200){
+                    if(turnCount < 2000){
                         duckPrep(rc);
                     } else {
                         ducksDo(rc);
@@ -232,8 +232,8 @@ public strictfp class RobotPlayer {
 			if(detected == trap){
 				counter = counter + 1;
 		}
-	}
-	return counter;
+		}
+		return counter;
 	}
 
 
