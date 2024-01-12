@@ -134,6 +134,11 @@ public strictfp class RobotPlayer {
     //         }
     //     }
         
+    	//Fallback option
+		//Nothing should come after this block of code
+		if (turnCount >= 200) {
+			duckPrep(rc);
+		}
     }
 
     public static MapLocation coordSetUp(RobotController rc){
@@ -227,15 +232,18 @@ public strictfp class RobotPlayer {
 			}
 		}
 		
-		if (turnCount > 197) {
+		if (turnCount > 195 && rc.getCrumbs() > 2500) {
 			if (rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
 				rc.build(TrapType.EXPLOSIVE, rc.getLocation());
 			}
 		}
 		
-		ducksDo(rc);
+		//Fallback option
+		//Nothing should come after this block of code
+		if (turnCount < 200) {
+			ducksDo(rc);
+		}
 		
-
 		/*
 		MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
 		FlagInfo[] ourFlagLoc = rc.senseNearbyFlags(-1);
@@ -256,12 +264,11 @@ public strictfp class RobotPlayer {
 			}
 			if(rc.canBuild(TrapType.WATER, rc.getLocation())){
 				rc.build(TrapType.WATER, rc.getLocation());
-		}
+			}
 		}
 		 else{
 			rc.setIndicatorString("Fleeing");
 			flee(rc, rc.senseNearbyRobots(-1)[0].location);
-
 		}
 		*/
 	}
