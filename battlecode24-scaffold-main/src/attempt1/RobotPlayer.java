@@ -233,6 +233,8 @@ public strictfp class RobotPlayer {
 			}
 		}
 		
+		ducksDo(rc);
+		
 
 		/*
 		MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
