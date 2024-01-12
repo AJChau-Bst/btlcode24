@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.lang.Math;
 
 /**
  * RobotPlayer is the class that describes your main robot strategy.
@@ -75,12 +76,13 @@ public strictfp class RobotPlayer {
                 if (!rc.isSpawned()){
                     MapLocation[] spawnLocs = rc.getAllySpawnLocations();
                     // Pick a random spawn location to attempt spawning in.
-                    MapLocation randomLoc = spawnLocs[rng.nextInt(spawnLocs.length)];
-                    if (rc.canSpawn(randomLoc)) rc.spawn(randomLoc);
+                    for (MapLocation aLoc : spawnLocs) {
+                        if (rc.canSpawn(aLoc)) rc.spawn(aLoc);
+                    }
                 }
                 else{
                 	//moveTo(rc, new MapLocation(15,15));
-                    if(turnCount < 2000){
+                    if(turnCount < 200){
                         duckPrep(rc);
                     } else {
                         ducksDo(rc);
@@ -187,6 +189,52 @@ public strictfp class RobotPlayer {
     }
     
 	static void duckPrep(RobotController rc) throws GameActionException{
+		seekCrumb(rc);
+
+		MapLocation nearestFlag = senseNearestFlagBroadcast(rc);
+		
+		if (turnCount > 200 - ((rc.getMapHeight() + rc.getMapWidth()) / 4)) {
+			boolean atDam = false;
+			MapLocation[] adjacencies = rc.getAllLocationsWithinRadiusSquared(rc.getLocation(), 2);
+			for (MapLocation tile : adjacencies) {
+				if (rc.senseMapInfo(tile).isDam()) {
+					atDam = true;
+				}
+			}
+			
+			if (!atDam) {
+				//go to flag (not great ai, but low priority issue)
+				if (nearestFlag != null) {
+					moveTo(rc, nearestFlag);
+				}
+			} else {
+				if (rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
+					rc.build(TrapType.EXPLOSIVE, rc.getLocation());
+				}
+			}
+		} else {
+			//spread out
+			RobotInfo nearestFriendly = senseNearestRobot(rc, -1, rc.getTeam());
+			MapLocation nearestEdge = senseNearestEdge(rc);
+			if (nearestEdge != null) {
+				flee(rc, nearestEdge);
+			} else if (nearestFriendly != null) {
+				flee(rc, nearestFriendly.location);
+			} else {
+				if (nearestFlag != null) {
+					flee(rc, nearestFlag);
+				}
+			}
+		}
+		
+		if (turnCount > 197) {
+			if (rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
+				rc.build(TrapType.EXPLOSIVE, rc.getLocation());
+			}
+		}
+		
+
+		/*
 		MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
 		FlagInfo[] ourFlagLoc = rc.senseNearbyFlags(-1);
 		if(crumbArray.length > 0){
@@ -212,6 +260,67 @@ public strictfp class RobotPlayer {
 			rc.setIndicatorString("Fleeing");
 			flee(rc, rc.senseNearbyRobots(-1)[0].location);
 
+		}
+		*/
+	}
+	
+	public static MapLocation senseNearestEdge(RobotController rc) {
+		MapLocation here = rc.getLocation();
+		boolean north = rc.onTheMap(here.add(Direction.NORTH).add(Direction.NORTH).add(Direction.NORTH).add(Direction.NORTH));
+		boolean east = rc.onTheMap(here.add(Direction.EAST).add(Direction.EAST).add(Direction.EAST).add(Direction.EAST));
+		boolean south = rc.onTheMap(here.add(Direction.SOUTH).add(Direction.SOUTH).add(Direction.SOUTH).add(Direction.SOUTH));
+		boolean west = rc.onTheMap(here.add(Direction.WEST).add(Direction.WEST).add(Direction.WEST).add(Direction.WEST));
+		
+		if (!north) {
+			return here.add(Direction.NORTH).add(Direction.NORTH).add(Direction.NORTH).add(Direction.NORTH);
+		} else if (!east) {
+			return here.add(Direction.EAST).add(Direction.EAST).add(Direction.EAST).add(Direction.EAST);
+		} else if (!south) {
+			return here.add(Direction.SOUTH).add(Direction.SOUTH).add(Direction.SOUTH).add(Direction.SOUTH);
+		} else if (!west) {
+			return here.add(Direction.WEST).add(Direction.WEST).add(Direction.WEST).add(Direction.WEST);
+		} else return null;
+	}
+	
+	public static MapLocation senseNearestFlagBroadcast(RobotController rc) {
+		MapLocation[] broadcasts = rc.senseBroadcastFlagLocations();
+		MapLocation nearestFlag = null;
+		MapLocation here = rc.getLocation();
+		int leastDistanceSquared = 65537;
+		if (broadcasts.length > 0) {
+			for (MapLocation aFlag : broadcasts) {
+				int aFlagDistance = aFlag.distanceSquaredTo(here);
+				if (aFlagDistance < leastDistanceSquared) {
+					leastDistanceSquared = aFlagDistance;
+					nearestFlag = aFlag;
+				}
+			}
+		}
+		return nearestFlag;
+	}
+	
+	public static RobotInfo senseNearestRobot(RobotController rc, int radiusSquared, Team team) throws GameActionException {
+		RobotInfo[] robots = rc.senseNearbyRobots(radiusSquared, team);
+		RobotInfo nearestRobot = null;
+		int leastDistanceSquared = 65537;
+		MapLocation here = rc.getLocation();
+		if (robots.length > 0) {
+			for (RobotInfo aRobot : robots) {
+				int aRobotDistance = aRobot.location.distanceSquaredTo(here);
+				if (aRobotDistance < leastDistanceSquared) {
+					leastDistanceSquared = aRobotDistance;
+					nearestRobot = aRobot;
+				}
+			}
+		}
+		return nearestRobot;
+	}
+	
+	public static void seekCrumb(RobotController rc) throws GameActionException {
+		MapLocation[] crumbArray = rc.senseNearbyCrumbs(-1);
+		if(crumbArray.length > 0){
+			rc.setIndicatorString("Collecting Crumbs");
+			moveTo(rc, crumbArray[0]);
 		}
 	}
 
@@ -264,12 +373,6 @@ public strictfp class RobotPlayer {
     	if (rc.getLocation().equals(loc)) {
     		return;
     	} else if(rc.getLocation().distanceSquaredTo(loc) > 2) {
-			MapLocation[] adjacencies = rc.getAllLocationsWithinRadiusSquared(rc.getLocation(), 2);
-			for (MapLocation tile : adjacencies) {
-				if (rc.senseMapInfo(tile).isDam()) {
-					return;
-				}
-			}
     		if (wallRider(rc, loc, threshold)) {
     			return;
     		} else if (!lookTwoMove(rc, loc)) {
