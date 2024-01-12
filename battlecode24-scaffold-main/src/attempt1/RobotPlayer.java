@@ -79,7 +79,7 @@ public strictfp class RobotPlayer {
                     if (rc.canSpawn(randomLoc)) rc.spawn(randomLoc);
                 }
                 else{
-                	//flee(rc, new MapLocation(15,15));
+                	//moveTo(rc, new MapLocation(15,15));
                     if(turnCount < 2000){
                         duckPrep(rc);
                     } else {
@@ -264,6 +264,12 @@ public strictfp class RobotPlayer {
     	if (rc.getLocation().equals(loc)) {
     		return;
     	} else if(rc.getLocation().distanceSquaredTo(loc) > 2) {
+			MapLocation[] adjacencies = rc.getAllLocationsWithinRadiusSquared(rc.getLocation(), 2);
+			for (MapLocation tile : adjacencies) {
+				if (rc.senseMapInfo(tile).isDam()) {
+					return;
+				}
+			}
     		if (wallRider(rc, loc, threshold)) {
     			return;
     		} else if (!lookTwoMove(rc, loc)) {
