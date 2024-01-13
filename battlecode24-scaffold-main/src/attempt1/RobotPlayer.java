@@ -85,6 +85,16 @@ public strictfp class RobotPlayer {
                     if(turnCount < 200){
                         duckPrep(rc);
                     } else {
+						if (turnCount == 751){
+							if(rc.canBuyGlobal(GlobalUpgrade.ACTION)){
+								rc.buyGlobal(GlobalUpgrade.ACTION);
+							}
+						}
+						if (turnCount == 1501){
+							if(rc.canBuyGlobal(GlobalUpgrade.HEALING)){
+								rc.buyGlobal(GlobalUpgrade.HEALING);
+							}
+						}
                         ducksDo(rc);
                     }
 
