@@ -133,6 +133,19 @@ public strictfp class RobotPlayer {
     //             rc.move(randomDir);
     //         }
     //     }
+    	
+    	//low priority, go to flag
+    	//rc.setIndicatorString(rc.getMovementCooldownTurns() + "");
+    	if (turnCount >= 200) {
+    		if (rc.getMovementCooldownTurns() < 10) {
+        		MapLocation nearestFlag = senseNearestFlagBroadcast(rc);
+        		if (nearestFlag != null) {
+        			moveTo(rc, nearestFlag);
+        		}
+        	}
+		}
+    	
+    	
         
     	//Fallback option
 		//Nothing should come after this block of code
