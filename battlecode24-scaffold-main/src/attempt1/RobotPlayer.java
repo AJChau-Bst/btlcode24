@@ -85,12 +85,12 @@ public strictfp class RobotPlayer {
                     if(turnCount < 200){
                         duckPrep(rc);
                     } else {
-						if (turnCount == 751){
+						if (turnCount == 750){
 							if(rc.canBuyGlobal(GlobalUpgrade.ACTION)){
 								rc.buyGlobal(GlobalUpgrade.ACTION);
 							}
 						}
-						if (turnCount == 1501){
+						if (turnCount == 1500){
 							if(rc.canBuyGlobal(GlobalUpgrade.HEALING)){
 								rc.buyGlobal(GlobalUpgrade.HEALING);
 							}
@@ -130,6 +130,7 @@ public strictfp class RobotPlayer {
 
     //Get Our Spawn Zones
     static void ducksDo(RobotController rc) throws GameActionException {
+    	MapLocation here = rc.getLocation();
     //     MapLocation[] nearestCrumbs = rc.senseNearbyCrumbs(-1);
     //     if (nearestCrumbs.length > 1){
     //         MapLocation nearestCrumbDirection = nearestCrumbs[0];
@@ -144,6 +145,51 @@ public strictfp class RobotPlayer {
     //         }
     //     }
     	
+    	//Designate surrounding robots
+    	RobotInfo[] allVisibleRobots = rc.senseNearbyRobots();
+    	RobotInfo nearestEnemy = null;
+    	int nearestEnemyDistanceSquared = 65537;
+    	RobotInfo nearestAlly = null;
+    	int nearestAllyDistanceSquared = 65537;
+    	RobotInfo nearestInjuredAlly = null;
+    	int nearestInjuredAllyDistanceSquared = 65537;
+    	for (RobotInfo aBot : allVisibleRobots) {
+    		if (aBot.team.equals(rc.getTeam())) { //handle ally bots
+    			int botDist = aBot.location.distanceSquaredTo(here);
+    			// all allies - not used currently
+    			/*
+    			if (botDist < nearestAllyDistanceSquared) {
+    				nearestAllyDistanceSquared = botDist;
+    				nearestAlly = aBot;
+    			}
+    			*/
+    			// Injured allies only
+    			if (aBot.health < 1000) {
+    				if (botDist < nearestInjuredAllyDistanceSquared) {
+        				nearestInjuredAllyDistanceSquared = botDist;
+        				nearestInjuredAlly = aBot;
+        			}
+    			}
+    		} else { //handle enemy bots
+    			int botDist = aBot.location.distanceSquaredTo(here);
+    			if (botDist < nearestEnemyDistanceSquared) {
+    				nearestEnemyDistanceSquared = botDist;
+    				nearestEnemy = aBot;
+    			}
+    		}
+    	}
+    	
+    	//Heal allies
+    	if (nearestInjuredAlly != null) {
+    		if (nearestInjuredAllyDistanceSquared > 4) { //don't waste movement if already close
+    			if (turnCount >= 200) { //don't try to move if in prep phase
+            		moveTo(rc, nearestInjuredAlly.location);
+            	}
+        	}
+    		if (rc.canHeal(nearestInjuredAlly.location)) {
+    			rc.heal(nearestInjuredAlly.location);
+    		}
+    	}
     	
     	if (turnCount >= 200) {
     		seekCrumb(rc);
