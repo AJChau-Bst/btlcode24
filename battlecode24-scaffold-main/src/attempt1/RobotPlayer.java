@@ -134,9 +134,12 @@ public strictfp class RobotPlayer {
     //         }
     //     }
     	
-    	//low priority, go to flag
-    	//rc.setIndicatorString(rc.getMovementCooldownTurns() + "");
+    	
     	if (turnCount >= 200) {
+    		seekCrumb(rc);
+    		
+    		//low priority, go to flag
+        	//rc.setIndicatorString(rc.getMovementCooldownTurns() + "");
     		if (rc.getMovementCooldownTurns() < 10) {
         		MapLocation nearestFlag = senseNearestFlagBroadcast(rc);
         		if (nearestFlag != null) {
