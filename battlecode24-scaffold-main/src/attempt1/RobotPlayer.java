@@ -341,9 +341,11 @@ public strictfp class RobotPlayer {
 					moveTo(rc, nearestFlag);
 				}
 			} else {
+				/*
 				if (rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
 					rc.build(TrapType.EXPLOSIVE, rc.getLocation());
 				}
+				*/
 				RobotInfo[] allVisibleRobots = rc.senseNearbyRobots(4, rc.getTeam().opponent());
 				RobotInfo nearlowestHPEnemy = null;
 				int nearlowestHPEnemyDistanceSquared = 65537;
@@ -1505,6 +1507,9 @@ public strictfp class RobotPlayer {
 		if (nearTarget != null && rc.getActionCooldownTurns() < 10) {
 			if (rc.canAttack(nearTarget.location)) {
 				rc.attack(nearTarget.location);
+				if (rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
+					rc.build(TrapType.EXPLOSIVE, rc.getLocation());
+				}
 				flee(rc, nearTarget.location);
 			}
 		} else if (farTarget != null && rc.getActionCooldownTurns() < 10) {
