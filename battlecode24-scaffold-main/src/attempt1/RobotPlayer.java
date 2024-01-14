@@ -82,7 +82,7 @@ public strictfp class RobotPlayer {
                 }
                 else{
                 	//moveTo(rc, new MapLocation(15,15));
-                    if(turnCount < 200){
+                    if(turnCount <= 200){
                         duckPrep(rc);
                     } else {
 						if (turnCount == 750){
@@ -275,8 +275,6 @@ public strictfp class RobotPlayer {
     }
     
 	static void duckPrep(RobotController rc) throws GameActionException{
-		seekCrumb(rc);
-
 		MapLocation nearestFlag = senseNearestFlagBroadcast(rc);
 		
 		if (turnCount > 200 - ((rc.getMapHeight() + rc.getMapWidth()) / 4)) {
@@ -287,7 +285,6 @@ public strictfp class RobotPlayer {
 					atDam = true;
 				}
 			}
-			
 			if (!atDam) {
 				//go to flag (not great ai, but low priority issue)
 				if (nearestFlag != null) {
@@ -299,6 +296,7 @@ public strictfp class RobotPlayer {
 				}
 			}
 		} else {
+			seekCrumb(rc);
 			//spread out
 			RobotInfo nearestFriendly = senseNearestRobot(rc, -1, rc.getTeam());
 			MapLocation nearestEdge = senseNearestEdge(rc);
@@ -313,11 +311,13 @@ public strictfp class RobotPlayer {
 			}
 		}
 		
+		/*
 		if (turnCount > 195 && rc.getCrumbs() > 2500) {
 			if (rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
 				rc.build(TrapType.EXPLOSIVE, rc.getLocation());
 			}
 		}
+		*/
 		
 		//Fallback option
 		//Nothing should come after this block of code
