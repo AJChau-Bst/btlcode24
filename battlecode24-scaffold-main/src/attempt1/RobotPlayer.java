@@ -198,8 +198,8 @@ public strictfp class RobotPlayer {
 				}	
     		}
     	}
-    	//Attack energy
-		shootScoot(rc, nearlowestHPEnemy, farlowestHPEnemy)
+    	//Attack enemy
+		shootScoot(rc, nearlowestHPEnemy, farlowestHPEnemy);
     	
 
 		//If see enemy with flag, attack. 
@@ -1486,16 +1486,24 @@ public strictfp class RobotPlayer {
     }
 
 	public static void shootScoot(RobotController rc, RobotInfo nearTarget, RobotInfo farTarget) throws GameActionException {
-		if (nearTarget != null && rc.canAttack(nearTarget.location)){
-			rc.attack(nearTarget.location);
-			flee(rc, nearTarget.location);
-		}
-		else{
+		if (nearTarget != null && rc.getActionCooldownTurns() < 10) {
+			if (rc.canAttack(nearTarget.location)) {
+				rc.attack(nearTarget.location);
+				flee(rc, nearTarget.location);
+			}
+		} else if (farTarget != null && rc.getActionCooldownTurns() < 10) {
 			moveTo(rc, farTarget.location);
-			if (farTarget != null && rc.canAttack(farTarget.location)){
+			if (rc.canAttack(farTarget.location)){
 				rc.attack(farTarget.location);
-				flee(rc, farTarget.location);
 			}
 		}
+		// should make a variant and test if this is effective or not
+		/*
+		if (nearTarget != null) {
+			flee(rc, nearTarget.location);
+		} else if (farTarget != null) {
+			flee(rc, farTarget.location);
+		}
+		*/
     }
 }
