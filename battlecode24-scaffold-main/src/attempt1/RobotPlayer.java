@@ -231,14 +231,8 @@ public strictfp class RobotPlayer {
     			rc.heal(nearestInjuredAlly.location);
     		}
     	}
-<<<<<<< Updated upstream
-		
-    	
-    	if (turnCount > 200) {
-=======
 
     	if (turnCount >= 200) {
->>>>>>> Stashed changes
     		seekCrumb(rc);
     		
     		//low priority, go to flag
