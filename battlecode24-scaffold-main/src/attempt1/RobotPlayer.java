@@ -198,18 +198,13 @@ public strictfp class RobotPlayer {
 				}	
     		}
     	}
-
-    	//Attack enemy
-		shootScoot(rc, nearlowestHPEnemy, farlowestHPEnemy);
     	
-
-		//If see enemy with flag, attack. 
+    	//If see enemy with flag, attack. 
 		if(nearestEnemyWithFlag != null){
-			if(rc.canAttack(nearestEnemyWithFlag.getLocation())){
-				rc.setIndicatorString("Pew Pew!!");
-				shootScoot(rc, nearestEnemyWithFlag, nearestEnemyWithFlag);
-			}
+			rc.setIndicatorString("Pew Pew!!");
+			shootScoot(rc, nearestEnemyWithFlag, null);
 		}
+		
 		//If have the flag, run back!!
 		if(rc.hasFlag()){
 			MapLocation[] allySpawnLocations = rc.getAllySpawnLocations();
@@ -225,9 +220,14 @@ public strictfp class RobotPlayer {
 			moveTo(rc, locOfSpawn);
 		}
 		
+		//If see enemy with flag, chase it
 		if(nearestEnemyWithFlag != null) {
 			shootScoot(rc, nearestEnemyWithFlag, nearestEnemyWithFlag);
 		}
+
+    	//Attack enemy
+		shootScoot(rc, nearlowestHPEnemy, farlowestHPEnemy);
+		
 		//If see flag, get flag.
 		FlagInfo[] nearbyEnemyFlags = rc.senseNearbyFlags(-1, rc.getTeam().opponent());
 		if(nearbyEnemyFlags.length > 0){
@@ -238,7 +238,6 @@ public strictfp class RobotPlayer {
 				}
 			}
 		}
-		
 
     	//Heal allies
     	if (nearestInjuredAlly != null) {
@@ -264,8 +263,6 @@ public strictfp class RobotPlayer {
         		}
         	}
 		}
-    	
-    	
         
     	//Fallback option
 		//Nothing should come after this block of code
