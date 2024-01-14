@@ -198,11 +198,8 @@ public strictfp class RobotPlayer {
 				}	
     		}
     	}
-<<<<<<< Updated upstream
+
     	//Attack enemy
-=======
-    	//Attack energy
->>>>>>> Stashed changes
 		shootScoot(rc, nearlowestHPEnemy, farlowestHPEnemy);
     	
 
@@ -228,7 +225,7 @@ public strictfp class RobotPlayer {
 			moveTo(rc, locOfSpawn);
 		}
 		
-		if(rc.senseRobot(nearestEnemyWithFlag.getID())){
+		if(nearestEnemyWithFlag != null) {
 			shootScoot(rc, nearestEnemyWithFlag, nearestEnemyWithFlag);
 		}
 		//If see flag, get flag.
@@ -330,10 +327,10 @@ public strictfp class RobotPlayer {
     }
     
 	static void duckPrep(RobotController rc) throws GameActionException{
+		MapLocation here = rc.getLocation();
 		MapLocation nearestFlag = senseNearestFlagBroadcast(rc);
-		
-		if (turnCount > 200 - ((rc.getMapHeight() + rc.getMapWidth()) / 4)) {
-			boolean atDam = false;
+		boolean atDam = false;
+		if (turnCount > 200 - ((rc.getMapHeight() + rc.getMapWidth()) / 4) && turnCount <= 200) {
 			MapLocation[] adjacencies = rc.getAllLocationsWithinRadiusSquared(rc.getLocation(), 2);
 			for (MapLocation tile : adjacencies) {
 				if (rc.senseMapInfo(tile).isDam()) {
@@ -350,6 +347,17 @@ public strictfp class RobotPlayer {
 				if (rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
 					rc.build(TrapType.EXPLOSIVE, rc.getLocation());
 				}
+				RobotInfo[] allVisibleRobots = rc.senseNearbyRobots(4, rc.getTeam().opponent());
+				RobotInfo nearlowestHPEnemy = null;
+				int nearlowestHPEnemyDistanceSquared = 65537;
+		    	for (RobotInfo aBot : allVisibleRobots) {
+		    		int botDist = aBot.location.distanceSquaredTo(here);
+					nearlowestHPEnemyDistanceSquared = botDist;
+        			nearlowestHPEnemy = aBot;
+		    	}
+
+		    	//Attack enemy
+				shootScoot(rc, nearlowestHPEnemy, null);
 			}
 		} else {
 			seekCrumb(rc);
@@ -377,8 +385,10 @@ public strictfp class RobotPlayer {
 		
 		//Fallback option
 		//Nothing should come after this block of code
-		if (turnCount <= 200) {
-			ducksDo(rc);
+		if (!atDam) {
+			if (turnCount <= 200) {
+				ducksDo(rc);
+			}
 		}
 		
 		/*
