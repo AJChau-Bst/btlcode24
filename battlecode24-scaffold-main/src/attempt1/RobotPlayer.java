@@ -232,7 +232,7 @@ public strictfp class RobotPlayer {
     		}
     	}
 
-    	if (turnCount >= 200) {
+    	if (turnCount > 200) {
     		seekCrumb(rc);
     		
     		//low priority, go to flag
