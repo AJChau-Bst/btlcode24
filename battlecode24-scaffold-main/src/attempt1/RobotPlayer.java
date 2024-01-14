@@ -153,6 +153,8 @@ public strictfp class RobotPlayer {
     	int nearestAllyDistanceSquared = 65537;
     	RobotInfo nearestInjuredAlly = null;
     	int nearestInjuredAllyDistanceSquared = 65537;
+		RobotInfo nearestEnemyWithFlag = null;
+		int nearestEnemyWithFlagDistanceSquared = 65537;
     	for (RobotInfo aBot : allVisibleRobots) {
     		if (aBot.team.equals(rc.getTeam())) { //handle ally bots
     			int botDist = aBot.location.distanceSquaredTo(here);
@@ -176,6 +178,12 @@ public strictfp class RobotPlayer {
     				nearestEnemyDistanceSquared = botDist;
     				nearestEnemy = aBot;
     			}
+				if(aBot.hasFlag()){
+					if(botDist < nearestEnemyWithFlagDistanceSquared){
+						nearestEnemyWithFlagDistanceSquared = botDist;
+						nearestEnemyWithFlag = aBot;
+					}
+				}	
     		}
     	}
     	
@@ -190,6 +198,7 @@ public strictfp class RobotPlayer {
     			rc.heal(nearestInjuredAlly.location);
     		}
     	}
+		
     	
     	if (turnCount >= 200) {
     		seekCrumb(rc);
@@ -414,6 +423,7 @@ public strictfp class RobotPlayer {
 		}
 		return false;
 	}
+	
 	static int trapDetection(RobotController rc, TrapType trap){
 		MapInfo[] detectingTrapTypes = rc.senseNearbyMapInfos();
 		int counter = 0;
