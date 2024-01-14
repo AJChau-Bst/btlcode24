@@ -155,6 +155,10 @@ public strictfp class RobotPlayer {
     	int nearestInjuredAllyDistanceSquared = 65537;
 		RobotInfo nearestEnemyWithFlag = null;
 		int nearestEnemyWithFlagDistanceSquared = 65537;
+		RobotInfo nearlowestHPEnemy = null;
+		int nearlowestHPEnemyDistanceSquared = 65537;
+		RobotInfo farlowestHPEnemy = null;
+		int farlowestHPEnemyDistanceSquared = 65537;
     	for (RobotInfo aBot : allVisibleRobots) {
     		if (aBot.team.equals(rc.getTeam())) { //handle ally bots
     			int botDist = aBot.location.distanceSquaredTo(here);
@@ -178,6 +182,14 @@ public strictfp class RobotPlayer {
     				nearestEnemyDistanceSquared = botDist;
     				nearestEnemy = aBot;
     			}
+				if (botDist <= 4 && aBot.health < nearlowestHPEnemyDistanceSquared){
+					nearlowestHPEnemyDistanceSquared = botDist;
+        			nearlowestHPEnemy = aBot;
+				}
+				if (botDist > 4 && aBot.health < farlowestHPEnemyDistanceSquared){
+					farlowestHPEnemyDistanceSquared = botDist;
+        			farlowestHPEnemy = aBot;
+				}
 				if(aBot.hasFlag()){
 					if(botDist < nearestEnemyWithFlagDistanceSquared){
 						nearestEnemyWithFlagDistanceSquared = botDist;
@@ -186,7 +198,8 @@ public strictfp class RobotPlayer {
 				}	
     		}
     	}
-    	
+    	//Attack energy
+		shootScoot(rc, nearlowestHPEnemy, farlowestHPEnemy)
     	//Heal allies
     	if (nearestInjuredAlly != null) {
     		if (nearestInjuredAllyDistanceSquared > 4) { //don't waste movement if already close
