@@ -200,7 +200,7 @@ public strictfp class RobotPlayer {
     	}
 		
     	
-    	if (turnCount >= 200) {
+    	if (turnCount > 200) {
     		seekCrumb(rc);
     		
     		//low priority, go to flag
@@ -217,7 +217,7 @@ public strictfp class RobotPlayer {
         
     	//Fallback option
 		//Nothing should come after this block of code
-		if (turnCount >= 200) {
+		if (turnCount > 200) {
 			duckPrep(rc);
 		}
     }
@@ -287,6 +287,7 @@ public strictfp class RobotPlayer {
 			}
 			if (!atDam) {
 				//go to flag (not great ai, but low priority issue)
+				ducksDo(rc);
 				if (nearestFlag != null) {
 					moveTo(rc, nearestFlag);
 				}
@@ -321,7 +322,7 @@ public strictfp class RobotPlayer {
 		
 		//Fallback option
 		//Nothing should come after this block of code
-		if (turnCount < 200) {
+		if (turnCount <= 200) {
 			ducksDo(rc);
 		}
 		
@@ -1438,7 +1439,7 @@ public strictfp class RobotPlayer {
     return false;
     }
 
-	public static void shootScoot(RobotController rc, RoboInfo nearTarget, RoboInfo farTarget) throws GameActionException {
+	public static void shootScoot(RobotController rc, RobotInfo nearTarget, RobotInfo farTarget) throws GameActionException {
 		if (nearTarget != null && rc.canAttack(nearTarget.location)){
 			rc.attack(nearTarget.location);
 			flee(rc, nearTarget.location);
