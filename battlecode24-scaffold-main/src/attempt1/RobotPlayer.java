@@ -198,7 +198,11 @@ public strictfp class RobotPlayer {
 				}	
     		}
     	}
+<<<<<<< Updated upstream
     	//Attack enemy
+=======
+    	//Attack energy
+>>>>>>> Stashed changes
 		shootScoot(rc, nearlowestHPEnemy, farlowestHPEnemy);
     	
 
@@ -206,6 +210,7 @@ public strictfp class RobotPlayer {
 		if(nearestEnemyWithFlag != null){
 			if(rc.canAttack(nearestEnemyWithFlag.getLocation())){
 				rc.setIndicatorString("Pew Pew!!");
+				shootScoot(rc, nearestEnemyWithFlag, nearestEnemyWithFlag);
 			}
 		}
 		//If have the flag, run back!!
@@ -221,6 +226,10 @@ public strictfp class RobotPlayer {
 				}
 			rc.setIndicatorString("Heading To: " + locOfSpawn.toString());
 			moveTo(rc, locOfSpawn);
+		}
+		
+		if(rc.senseRobot(nearestEnemyWithFlag.getID())){
+			shootScoot(rc, nearestEnemyWithFlag, nearestEnemyWithFlag);
 		}
 		//If see flag, get flag.
 		FlagInfo[] nearbyEnemyFlags = rc.senseNearbyFlags(-1, rc.getTeam().opponent());
