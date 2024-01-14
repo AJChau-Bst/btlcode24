@@ -1427,4 +1427,18 @@ public strictfp class RobotPlayer {
     	}
     return false;
     }
+
+	public static void shootScoot(RobotController rc, RoboInfo nearTarget, RoboInfo farTarget) throws GameActionException {
+		if (nearTarget != null && rc.canAttack(nearTarget.location)){
+			rc.attack(nearTarget.location);
+			flee(rc, nearTarget.location);
+		}
+		else{
+			moveTo(rc, farTarget.location);
+			if (farTarget != null && rc.canAttack(farTarget.location)){
+				rc.attack(farTarget.location);
+				flee(rc, farTarget.location);
+			}
+		}
+    }
 }
