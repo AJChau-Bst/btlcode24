@@ -299,13 +299,14 @@ public strictfp class RobotPlayer {
         		moveTo(rc, flagApprox);
     		} else {
     			MapLocation[] spawnLocs = rc.getAllySpawnLocations();
-    			spawnLocs = shuffleArray(spawnLocs, rng);
-    			int x = spawnLocs[0].x;
-            	int y = spawnLocs[0].y;
-            	x = -x + rc.getMapWidth();
-            	y = -y + rc.getMapHeight();
-            	MapLocation enemySpawn = new MapLocation(x,y);
-    			moveTo(rc, enemySpawn);
+    			for (int i = 0; i < spawnLocs.length; i++) {
+    				int x = spawnLocs[i].x;
+                	int y = spawnLocs[i].y;
+                	x = -x + rc.getMapWidth();
+                	y = -y + rc.getMapHeight();
+                	spawnLocs[i] = new MapLocation(x,y);
+    			}
+            	moveTo(rc, spawnLocs[rc.getID() % spawnLocs.length]);
     		}
     	}
         
@@ -317,13 +318,21 @@ public strictfp class RobotPlayer {
     }
     
     public static void shootScoot(RobotController rc, RobotInfo nearTarget, RobotInfo farTarget) throws GameActionException {
+    	shootyStuff(rc, nearTarget, farTarget, false);
+    }
+    
+    public static void shootScoot(RobotController rc, RobotInfo nearTarget, RobotInfo farTarget, boolean charge) throws GameActionException {
+    	shootyStuff(rc, nearTarget, farTarget, charge);
+    }
+    
+    public static void shootyStuff(RobotController rc, RobotInfo nearTarget, RobotInfo farTarget, boolean charge) throws GameActionException {
 		if (nearTarget != null && rc.getActionCooldownTurns() < 10) {
 			if (rc.canAttack(nearTarget.location)) {
 				rc.attack(nearTarget.location);
 				rc.setIndicatorString("Pew Pew!!");
 				flee(rc, nearTarget.location);
 			}
-		} else if (farTarget != null && rc.getActionCooldownTurns() < 10) {
+		} else if (farTarget != null && (rc.getActionCooldownTurns() < 10 || charge)) {
 			moveTo(rc, farTarget.location);
 			if (rc.canAttack(farTarget.location)){
 				rc.attack(farTarget.location);
