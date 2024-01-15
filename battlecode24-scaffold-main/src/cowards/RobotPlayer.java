@@ -1,4 +1,4 @@
-package attempt1;
+package cowards;
 
 import battlecode.common.*;
 
@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.lang.Math;
+import java.util.Collections;
 
 /**
  * RobotPlayer is the class that describes your main robot strategy.
@@ -74,8 +75,8 @@ public strictfp class RobotPlayer {
                 // Make sure you spawn your robot in before you attempt to take any actions!
                 // Robots not spawned in do not have vision of any tiles and cannot perform any actions.
                 if (!rc.isSpawned()){
-                    MapLocation[] spawnLocs = rc.getAllySpawnLocations();
-                    spawnLocs = shuffleArray(spawnLocs, rng);
+                	MapLocation[] spawnLocs = rc.getAllySpawnLocations();
+                	spawnLocs = shuffleArray(spawnLocs, rng);
                     // Pick a random spawn location to attempt spawning in.
                     for (MapLocation aLoc : spawnLocs) {
                         if (rc.canSpawn(aLoc)) rc.spawn(aLoc);
@@ -224,7 +225,6 @@ public strictfp class RobotPlayer {
 		
 		//If see enemy with flag, chase it
 		if(nearestEnemyWithFlag != null) {
-			
 			shootScoot(rc, nearestEnemyWithFlag, nearestEnemyWithFlag);
 		}
 
@@ -249,6 +249,17 @@ public strictfp class RobotPlayer {
 				}
 				flee(rc, farlowestHPEnemy.location);
 			}
+		} else if (turnCount <= 210) {
+			if (nearlowestHPEnemy != null) {
+				MapLocation plantSite = rc.getLocation().add(rc.getLocation().directionTo(nearlowestHPEnemy.location));
+				if (rc.canBuild(TrapType.EXPLOSIVE, plantSite)) {
+					rc.build(TrapType.EXPLOSIVE, plantSite);
+				}
+				if (rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
+					rc.build(TrapType.EXPLOSIVE, rc.getLocation());
+				}
+			}
+			shootScoot(rc, nearlowestHPEnemy, farlowestHPEnemy, false);
 		} else {
 			shootScoot(rc, nearlowestHPEnemy, farlowestHPEnemy);
 		}
@@ -317,6 +328,14 @@ public strictfp class RobotPlayer {
     }
     
     public static void shootScoot(RobotController rc, RobotInfo nearTarget, RobotInfo farTarget) throws GameActionException {
+    	shootyStuff(rc, nearTarget, farTarget, true);
+    }
+    
+    public static void shootScoot(RobotController rc, RobotInfo nearTarget, RobotInfo farTarget, boolean charge) throws GameActionException {
+    	shootyStuff(rc, nearTarget, farTarget, charge);
+    }
+    
+    public static void shootyStuff(RobotController rc, RobotInfo nearTarget, RobotInfo farTarget, boolean charge) throws GameActionException {
 		if (nearTarget != null && rc.getActionCooldownTurns() < 10) {
 			if (rc.canAttack(nearTarget.location)) {
 				rc.attack(nearTarget.location);
@@ -324,7 +343,9 @@ public strictfp class RobotPlayer {
 				flee(rc, nearTarget.location);
 			}
 		} else if (farTarget != null && rc.getActionCooldownTurns() < 10) {
-			moveTo(rc, farTarget.location);
+			if (charge) {
+				moveTo(rc, farTarget.location);
+			}
 			if (rc.canAttack(farTarget.location)){
 				rc.attack(farTarget.location);
 				rc.setIndicatorString("Pew Pew!!");
@@ -1693,13 +1714,13 @@ public strictfp class RobotPlayer {
     }
     
     static MapLocation[] shuffleArray(MapLocation[] spawnLocs, Random rnd) {
-	  for (int i = spawnLocs.length - 1; i > 0; i--) {
-	    int index = rnd.nextInt(i + 1);
-	    // Simple swap
-	    MapLocation a = spawnLocs[index];
-	    spawnLocs[index] = spawnLocs[i];
-	    spawnLocs[i] = a;
-	  }
-	  return spawnLocs;
+      for (int i = spawnLocs.length - 1; i > 0; i--) {
+        int index = rnd.nextInt(i + 1);
+        // Simple swap
+        MapLocation a = spawnLocs[index];
+        spawnLocs[index] = spawnLocs[i];
+        spawnLocs[i] = a;
+      }
+      return spawnLocs;
     }
 }
