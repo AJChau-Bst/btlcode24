@@ -1,4 +1,4 @@
-package attempt1;
+package stunners;
 
 import battlecode.common.*;
 
@@ -238,20 +238,20 @@ public strictfp class RobotPlayer {
 		if (rc.getHealth() <= 750) {
 			if (nearlowestHPEnemy != null) {
 				MapLocation plantSite = rc.getLocation().add(rc.getLocation().directionTo(nearlowestHPEnemy.location));
-				if (crumbsThreshold && rc.canBuild(TrapType.EXPLOSIVE, plantSite)) {
-					rc.build(TrapType.EXPLOSIVE, plantSite);
+				if (crumbsThreshold && rc.canBuild(TrapType.STUN, plantSite)) {
+					rc.build(TrapType.STUN, plantSite);
 				}
-				if (crumbsThreshold && rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
-					rc.build(TrapType.EXPLOSIVE, rc.getLocation());
+				if (crumbsThreshold && rc.canBuild(TrapType.STUN, rc.getLocation())) {
+					rc.build(TrapType.STUN, rc.getLocation());
 				}
 				flee(rc, nearlowestHPEnemy.location);
 			} else if (farlowestHPEnemy != null) {
 				MapLocation plantSite = rc.getLocation().add(rc.getLocation().directionTo(farlowestHPEnemy.location));
-				if (crumbsThreshold && rc.canBuild(TrapType.EXPLOSIVE, plantSite)) {
-					rc.build(TrapType.EXPLOSIVE, plantSite);
+				if (crumbsThreshold && rc.canBuild(TrapType.STUN, plantSite)) {
+					rc.build(TrapType.STUN, plantSite);
 				}
-				if (crumbsThreshold && rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
-					rc.build(TrapType.EXPLOSIVE, rc.getLocation());
+				if (crumbsThreshold && rc.canBuild(TrapType.STUN, rc.getLocation())) {
+					rc.build(TrapType.STUN, rc.getLocation());
 				}
 				flee(rc, farlowestHPEnemy.location);
 			}
@@ -346,28 +346,28 @@ public strictfp class RobotPlayer {
 				rc.setIndicatorString("Pew Pew!!");
 			}
 			MapLocation plantSite = rc.getLocation().add(rc.getLocation().directionTo(farTarget.location));
-			if (crumbsThreshold && rc.canBuild(TrapType.EXPLOSIVE, plantSite)) {
-				rc.build(TrapType.EXPLOSIVE, plantSite);
+			if (crumbsThreshold && rc.canBuild(TrapType.STUN, plantSite)) {
+				rc.build(TrapType.STUN, plantSite);
 			}
 		}
 		// should make a variant and test if this is effective or not
 		if (nearTarget != null && nearTarget.location.distanceSquaredTo(rc.getLocation()) <= 4) {
 			MapLocation plantSite = rc.getLocation().add(rc.getLocation().directionTo(nearTarget.location));
-			if (crumbsThreshold && rc.canBuild(TrapType.EXPLOSIVE, plantSite)) {
-				rc.build(TrapType.EXPLOSIVE, plantSite);
+			if (crumbsThreshold && rc.canBuild(TrapType.STUN, plantSite)) {
+				rc.build(TrapType.STUN, plantSite);
 			}
-			if (crumbsThreshold && rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
-				rc.build(TrapType.EXPLOSIVE, rc.getLocation());
+			if (crumbsThreshold && rc.canBuild(TrapType.STUN, rc.getLocation())) {
+				rc.build(TrapType.STUN, rc.getLocation());
 			}
 			if (flee(rc, nearTarget.location)) {rc.setIndicatorString("Retreat!");};
-			if (crumbsThreshold && rc.canBuild(TrapType.EXPLOSIVE, rc.getLocation())) {
-				rc.build(TrapType.EXPLOSIVE, rc.getLocation());
+			if (crumbsThreshold && rc.canBuild(TrapType.STUN, rc.getLocation())) {
+				rc.build(TrapType.STUN, rc.getLocation());
 			}
 		} else if (farTarget != null) {
 			//if (flee(rc, farTarget.location)) {rc.setIndicatorString("Retreat!");};
 			MapLocation plantSite = rc.getLocation().add(rc.getLocation().directionTo(farTarget.location));
-			if (crumbsThreshold && rc.canBuild(TrapType.EXPLOSIVE, plantSite)) {
-				rc.build(TrapType.EXPLOSIVE, plantSite);
+			if (crumbsThreshold && rc.canBuild(TrapType.STUN, plantSite)) {
+				rc.build(TrapType.STUN, plantSite);
 			}
 		}
     }
