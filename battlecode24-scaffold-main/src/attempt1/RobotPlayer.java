@@ -389,6 +389,15 @@ public strictfp class RobotPlayer {
         }
     }
 
+	static void avoidFriendlyTraps(RobotController rc){
+		MapLocation loc = rc.getLocation();
+		MapInfo mapLoc = rc.senseMapInfo(loc);
+		TrapType trap = mapLoc.getTrapType();
+		if (!trap.equals(NONE)){
+			flee(rc, loc);
+		}
+	}
+
 
     static void brokenFlagMvment(RobotController rc) throws GameActionException{
 		Team ourTeam = rc.getTeam();
